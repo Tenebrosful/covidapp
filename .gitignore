@@ -25,6 +25,9 @@ node_modules/
 *.ini
 *.cache
 
+# Rajouté manuellement
+logs/
+
 # External tool builders
 .externalToolBuilders/
 
