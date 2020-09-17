@@ -24,6 +24,9 @@ composer.phar
 node_modules/
 *.ini
 
+# Rajouté manuellement
+logs/
+
 # External tool builders
 .externalToolBuilders/
 
