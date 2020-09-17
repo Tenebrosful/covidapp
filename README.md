@@ -1,2 +1,4 @@
-# LP2_bernar323u_baraniak1u_covidApp
+# CovidApp
+*Développé par Hugo Bernard et David Baraniak*
+
 
