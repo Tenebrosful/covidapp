@@ -23,6 +23,7 @@ test.php
 composer.phar
 node_modules/
 *.ini
+.cache
 
 # External tool builders
 .externalToolBuilders/
