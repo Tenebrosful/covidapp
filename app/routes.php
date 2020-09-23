@@ -1,12 +1,13 @@
 <?php
 declare(strict_types=1);
 
+use Slim\App;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Interfaces\RouteCollectorProxyInterface as Group;
+
 use App\Application\Actions\User\ListUsersAction;
 use App\Application\Actions\User\ViewUserAction;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\App;
-use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 
 return function (App $app) {
     $app->options('/{routes:.*}', function (Request $request, Response $response) {
