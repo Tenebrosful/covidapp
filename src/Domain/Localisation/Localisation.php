@@ -4,7 +4,9 @@
 namespace App\Domain\Localisation;
 
 
-class Localisation extends \Illuminate\Database\Eloquent\Model
+use Illuminate\Database\Eloquent\Model;
+
+class Localisation extends Model
 {
     /*
      * Nom de la table

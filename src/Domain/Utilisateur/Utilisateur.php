@@ -3,7 +3,9 @@
 
 namespace App\Domain\Utilisateur;
 
-class Utilisateur extends \Illuminate\Database\Eloquent\Model
+use Illuminate\Database\Eloquent\Model;
+
+class Utilisateur extends Model
 {
     /*
      * Nom de la table

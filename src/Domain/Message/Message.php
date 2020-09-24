@@ -4,7 +4,9 @@
 namespace App\Domain\Message;
 
 
-class Message extends \Illuminate\Database\Eloquent\Model
+use Illuminate\Database\Eloquent\Model;
+
+class Message extends Model
 {
     /*
      * Nom de la table
