@@ -5,8 +5,7 @@ namespace App\Application\Actions;
 
 use JsonSerializable;
 
-class ActionError implements JsonSerializable
-{
+class ActionError implements JsonSerializable {
     public const BAD_REQUEST = 'BAD_REQUEST';
     public const INSUFFICIENT_PRIVILEGES = 'INSUFFICIENT_PRIVILEGES';
     public const NOT_ALLOWED = 'NOT_ALLOWED';
@@ -31,8 +30,7 @@ class ActionError implements JsonSerializable
      * @param string        $type
      * @param string|null   $description
      */
-    public function __construct(string $type, ?string $description)
-    {
+    public function __construct(string $type, ?string $description) {
         $this->type = $type;
         $this->description = $description;
     }
@@ -40,8 +38,7 @@ class ActionError implements JsonSerializable
     /**
      * @return string
      */
-    public function getType(): string
-    {
+    public function getType(): string {
         return $this->type;
     }
 
@@ -49,8 +46,7 @@ class ActionError implements JsonSerializable
      * @param string $type
      * @return self
      */
-    public function setType(string $type): self
-    {
+    public function setType(string $type): self {
         $this->type = $type;
         return $this;
     }
@@ -58,8 +54,7 @@ class ActionError implements JsonSerializable
     /**
      * @return string
      */
-    public function getDescription(): string
-    {
+    public function getDescription(): string {
         return $this->description;
     }
 
@@ -67,8 +62,7 @@ class ActionError implements JsonSerializable
      * @param string|null $description
      * @return self
      */
-    public function setDescription(?string $description = null): self
-    {
+    public function setDescription(?string $description = null): self {
         $this->description = $description;
         return $this;
     }
@@ -76,13 +70,11 @@ class ActionError implements JsonSerializable
     /**
      * @return array
      */
-    public function jsonSerialize()
-    {
+    public function jsonSerialize() {
         $payload = [
             'type' => $this->type,
             'description' => $this->description,
         ];
-
         return $payload;
     }
 }

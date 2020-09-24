@@ -3,27 +3,25 @@ declare(strict_types=1);
 
 namespace App\Application\Handlers;
 
+use Slim\Handlers\ErrorHandler as SlimErrorHandler;
+use Psr\Http\Message\ResponseInterface as Response;
 use App\Application\Actions\ActionError;
+use Slim\Exception\HttpException;
+use Slim\Exception\HttpNotFoundException;
+use Slim\Exception\HttpMethodNotAllowedException;
+use Slim\Exception\HttpUnauthorizedException;
+use Slim\Exception\HttpBadRequestException;
+use Slim\Exception\HttpForbiddenException;
+use Slim\Exception\HttpNotImplementedException;
 use App\Application\Actions\ActionPayload;
 use Exception;
-use Psr\Http\Message\ResponseInterface as Response;
-use Slim\Exception\HttpBadRequestException;
-use Slim\Exception\HttpException;
-use Slim\Exception\HttpForbiddenException;
-use Slim\Exception\HttpMethodNotAllowedException;
-use Slim\Exception\HttpNotFoundException;
-use Slim\Exception\HttpNotImplementedException;
-use Slim\Exception\HttpUnauthorizedException;
-use Slim\Handlers\ErrorHandler as SlimErrorHandler;
 use Throwable;
 
-class HttpErrorHandler extends SlimErrorHandler
-{
+class HttpErrorHandler extends SlimErrorHandler {
     /**
      * @inheritdoc
      */
-    protected function respond(): Response
-    {
+    protected function respond(): Response {
         $exception = $this->exception;
         $statusCode = 500;
         $error = new ActionError(
