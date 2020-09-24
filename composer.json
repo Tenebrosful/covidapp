@@ -2,7 +2,7 @@
     "name": "appCovid/appCovid",
     "description": "Application de gestion de crise lié au COVID-19",
     "require": {
-        "php": "^7.2",
+        "php": "^7.4",
         "ext-json": "*",
         "illuminate/database": "^8.5",
         "monolog/monolog": "^2.1",
