@@ -29,7 +29,7 @@ $capsule->bootEloquent();
 if (Capsule::schema()->hasTable('messagerie')) {
 	Capsule::schema()->table('messagerie', function(Blueprint $table) {
         $table->dropForeign(['id_user_auteur']);
-        $table->dropForeign(['id_user2_destinataire']);
+        $table->dropForeign(['id_user_destinataire']);
         $table->dropForeign(['id_message']);
     });
 }
@@ -77,17 +77,17 @@ Capsule::schema()->create('messagerie', function ($table) {
 
     $table->integer('id_user_auteur')->unsigned();
 
-    $table->integer('id_user2_destinataire')->unsigned();
+    $table->integer('id_user_destinataire')->unsigned();
 
     $table->integer('id_message')->unsigned()->unique();
 
     $table->foreign('id_user_auteur')->references('id')->on('utilisateurs')->onDelete('cascade');
 
-    $table->foreign('id_user2_destinataire')->references('id')->on('utilisateurs')->onDelete('cascade');
+    $table->foreign('id_user_destinataire')->references('id')->on('utilisateurs')->onDelete('cascade');
 
     $table->foreign('id_message')->references('id')->on('messages')->onDelete('cascade');
 
-    $table->primary(['id_user_auteur', 'id_user2_destinataire', 'id_message'], 'messagerie_primarykeys');
+    $table->primary(['id_user_auteur', 'id_user_destinataire', 'id_message'], 'messagerie_primarykeys');
 
     $table->timestamps();
 });
