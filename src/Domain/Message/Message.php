@@ -3,7 +3,6 @@
 
 namespace App\Domain\Message;
 
-
 use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model
