@@ -11,7 +11,7 @@ class Localisation extends Model
     /*
      * Nom de la table
      */
-    protected $table = 'localisation';
+    protected $table = 'localisations';
 
     /*
      * Nom de la primary key
