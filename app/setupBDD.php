@@ -60,7 +60,7 @@ Capsule::schema()->create('messagerie', function ($table) {
     $table->integer('id_user_auteur')->unsigned();
 
     $table->integer('id_user2_destinataire')->unsigned();
-    
+
     $table->integer('id_message')->unsigned()->unique();
 
     $table->foreign('id_user_auteur')->references('id')->on('utilisateurs')->onDelete('cascade');
@@ -69,8 +69,7 @@ Capsule::schema()->create('messagerie', function ($table) {
 
     $table->foreign('id_message')->references('id')->on('messages')->onDelete('cascade');
 
-    $table->primary(['id_user_auteur', 'id_user2_destinataire', 'id_message']);
-    
+    $table->primary(['id_user_auteur', 'id_user2_destinataire', 'id_message'], 'messagerie_primarykeys');
 });
 
 Capsule::schema()->dropIfExists('localisation');
@@ -88,9 +87,6 @@ Capsule::schema()->dropIfExists('utilisateurlocalisation');
 Capsule::schema()->create('utlisateurlocalisation', function ($table) {
 
     $table->integer('id_user')->unsigned();
-    $table->primary('id_user');
-
-    $table->primary('id_localisation');
 
     $table->integer('id_localisation')->unsigned();
 
