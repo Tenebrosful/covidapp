@@ -36,4 +36,20 @@ class Utilisateur extends Model
      * @var array
      */
     protected $hidden = ['mdpCrypte'];
+
+    /*
+     * Retourne la liste des messages envoyés par l'utilisateur
+     */
+    public function messagesEnvoyes()
+    {
+        return $this->belongsToMany("App\Domain\Message\Message", "messagerie", "id_user_auteur", "id_message")->get();
+    }
+
+    /*
+     * Retourne la liste des messages reçus par l'utilisateur
+     */
+    public function messagesRecus()
+    {
+        return $this->belongsToMany("App\Domain\Message\Message", "messagerie", "id_user_destinataire", "id_message")->get();
+    }
 }
