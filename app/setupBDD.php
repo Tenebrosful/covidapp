@@ -11,7 +11,7 @@ if (is_array($bddConfig = parse_ini_file('../config/bdd.ini')))
     $capsule->addConnection($bddConfig);
 else {
     echo "ERREUR : Fichier de configuration de la base de donnée introuvable";
-    exit();
+    exit(); 
 }
 
 //Make this Capsule instance available globally.
@@ -28,8 +28,6 @@ Capsule::schema()->create('utilisateurs', function ($table) {
 
     $table->string('mdpCrypté');
 
-    $table->string('sel');
-
     $table->string('nom');
 
     $table->string('prenom');
@@ -37,5 +35,43 @@ Capsule::schema()->create('utilisateurs', function ($table) {
     $table->date('dateNais');
 
     $table->timestamps();
+
+});
+
+Capsule::schema()->create('messages', function ($table) {
+
+    $table->increments('id');
+
+    $table->string('contenu');
+
+    $table->date('date');
+
+});
+
+Capsule::schema()->create('messagerie', function ($table) {
+
+    $table->foreign('id_user_auteur')->references('id')->on('utilisateurs')->onDelete('cascade');
+
+    $table->foreign('id_user2_destinataire')->references('id')->on('utilisateurs')->onDelete('cascade');
+
+    $table->foreign('id_message')->references('id')->on('messages')->onDelete('cascade');
+
+});
+
+Capsule::schema()->create('localisation', function ($table) {
+
+    $table->increments('id');
+
+    $table->string('latitude');
+
+    $table->string('longitude');
+
+});
+
+Capsule::schema()->create('utlisateurlocalisation', function ($table) {
+
+    $table->foreign('id_user')->references('id')->on('utilisateurs')->onDelete('cascade');
+
+    $table->foreign('id_localisation')->references('id')->on('localisation')->onDelete('cascade');
 
 });

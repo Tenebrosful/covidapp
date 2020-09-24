@@ -13,7 +13,6 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $capsule = new Capsule;
 
-
 if (is_array($bddConfig = parse_ini_file('../config/bdd.ini')))
     $capsule->addConnection($bddConfig);
 else {
