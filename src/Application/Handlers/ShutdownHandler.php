@@ -3,12 +3,11 @@ declare(strict_types=1);
 
 namespace App\Application\Handlers;
 
-use App\Application\ResponseEmitter\ResponseEmitter;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpInternalServerErrorException;
+use App\Application\ResponseEmitter\ResponseEmitter;
 
-class ShutdownHandler
-{
+class ShutdownHandler {
     /**
      * @var Request
      */
@@ -41,8 +40,7 @@ class ShutdownHandler
         $this->displayErrorDetails = $displayErrorDetails;
     }
 
-    public function __invoke()
-    {
+    public function __invoke() {
         $error = error_get_last();
         if ($error) {
             $errorFile = $error['file'];

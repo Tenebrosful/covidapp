@@ -3,25 +3,24 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use DI\ContainerBuilder;
-use Exception;
 use PHPUnit\Framework\TestCase as PHPUnit_TestCase;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use Exception;
 use Slim\App;
+use DI\ContainerBuilder;
 use Slim\Factory\AppFactory;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Psr7\Uri;
 use Slim\Psr7\Factory\StreamFactory;
 use Slim\Psr7\Headers;
 use Slim\Psr7\Request as SlimRequest;
-use Slim\Psr7\Uri;
 
-class TestCase extends PHPUnit_TestCase
-{
+
+class TestCase extends PHPUnit_TestCase {
     /**
      * @return App
      * @throws Exception
      */
-    protected function getAppInstance(): App
-    {
+    protected function getAppInstance(): App {
         // Instantiate PHP-DI ContainerBuilder
         $containerBuilder = new ContainerBuilder();
 
