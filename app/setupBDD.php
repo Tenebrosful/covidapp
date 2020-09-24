@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Capsule\Manager as Capsule;
+use Illuminate\Database\Schema\Blueprint as Blueprint;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -24,6 +25,21 @@ $capsule->setAsGlobal();
 // Setup the Eloquent ORM.
 $capsule->bootEloquent();
 
+// Suppression de clés primaires pour pouvoir supprimer les tables
+if (Capsule::schema()->hasTable('messagerie')) {
+	Capsule::schema()->table('messagerie', function(Blueprint $table) {
+        $table->dropForeign(['id_user_auteur']);
+        $table->dropForeign(['id_user2_destinataire']);
+        $table->dropForeign(['id_message']);
+    });
+}
+if (Capsule::schema()->hasTable('utilisateurlocalisation')) {
+	Capsule::schema()->table('utilisateurlocalisation', function(Blueprint $table) {
+        $table->dropForeign(['id_user']);
+        $table->dropForeign(['id_localisation']);
+    });
+}
+
 Capsule::schema()->dropIfExists('utilisateurs');
 Capsule::schema()->create('utilisateurs', function ($table) {
 
@@ -31,7 +47,7 @@ Capsule::schema()->create('utilisateurs', function ($table) {
 
     $table->string('email')->unique();
 
-    $table->string('mdpCrypté');
+    $table->string('mdpCrypte');
 
     $table->string('nom');
 
@@ -52,6 +68,8 @@ Capsule::schema()->create('messages', function ($table) {
 
     $table->date('date');
 
+    $table->timestamps();
+
 });
 
 Capsule::schema()->dropIfExists('messagerie');
@@ -70,21 +88,24 @@ Capsule::schema()->create('messagerie', function ($table) {
     $table->foreign('id_message')->references('id')->on('messages')->onDelete('cascade');
 
     $table->primary(['id_user_auteur', 'id_user2_destinataire', 'id_message'], 'messagerie_primarykeys');
+
+    $table->timestamps();
 });
 
-Capsule::schema()->dropIfExists('localisation');
-Capsule::schema()->create('localisation', function ($table) {
+Capsule::schema()->dropIfExists('localisations');
+Capsule::schema()->create('localisations', function ($table) {
 
     $table->increments('id');
 
     $table->string('latitude');
 
     $table->string('longitude');
+    $table->timestamps();
 
 });
 
 Capsule::schema()->dropIfExists('utilisateurlocalisation');
-Capsule::schema()->create('utlisateurlocalisation', function ($table) {
+Capsule::schema()->create('utilisateurlocalisation', function ($table) {
 
     $table->integer('id_user')->unsigned();
 
@@ -92,8 +113,9 @@ Capsule::schema()->create('utlisateurlocalisation', function ($table) {
 
     $table->foreign('id_user')->references('id')->on('utilisateurs')->onDelete('cascade');
 
-    $table->foreign('id_localisation')->references('id')->on('localisation')->onDelete('cascade');
-    
+    $table->foreign('id_localisation')->references('id')->on('localisations')->onDelete('cascade');
+
     $table->primary(['id_user', 'id_localisation']);
-    
+    $table->timestamps();
+
 });
