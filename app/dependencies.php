@@ -2,11 +2,11 @@
 declare(strict_types=1);
 
 use DI\ContainerBuilder;
-use Monolog\Handler\StreamHandler;
+use Psr\Log\LoggerInterface;
+use Psr\Container\ContainerInterface;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
-use Psr\Container\ContainerInterface;
-use Psr\Log\LoggerInterface;
+use Monolog\Handler\StreamHandler;
 
 return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([

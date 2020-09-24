@@ -31,7 +31,7 @@ $capsule->bootEloquent();
 $containerBuilder = new ContainerBuilder();
 
 if (false) { // Should be set to true in production
-    $containerBuilder->enableCompilation(__DIR__ . '/../var/cache');
+	$containerBuilder->enableCompilation(__DIR__ . '/../var/cache');
 }
 
 // Set up settings
