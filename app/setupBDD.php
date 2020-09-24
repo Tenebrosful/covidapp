@@ -20,6 +20,7 @@ $capsule->setAsGlobal();
 // Setup the Eloquent ORM.
 $capsule->bootEloquent();
 
+Capsule::schema()->dropIfExists('utilisateurs');
 Capsule::schema()->create('utilisateurs', function ($table) {
 
     $table->increments('id');
@@ -38,6 +39,7 @@ Capsule::schema()->create('utilisateurs', function ($table) {
 
 });
 
+Capsule::schema()->dropIfExists('messages');
 Capsule::schema()->create('messages', function ($table) {
 
     $table->increments('id');
@@ -48,6 +50,7 @@ Capsule::schema()->create('messages', function ($table) {
 
 });
 
+Capsule::schema()->dropIfExists('messagerie');
 Capsule::schema()->create('messagerie', function ($table) {
 
     $table->foreign('id_user_auteur')->references('id')->on('utilisateurs')->onDelete('cascade');
@@ -58,6 +61,7 @@ Capsule::schema()->create('messagerie', function ($table) {
 
 });
 
+Capsule::schema()->dropIfExists('localisation');
 Capsule::schema()->create('localisation', function ($table) {
 
     $table->increments('id');
@@ -68,6 +72,7 @@ Capsule::schema()->create('localisation', function ($table) {
 
 });
 
+Capsule::schema()->dropIfExists('utilisateurlocalisation');
 Capsule::schema()->create('utlisateurlocalisation', function ($table) {
 
     $table->foreign('id_user')->references('id')->on('utilisateurs')->onDelete('cascade');
