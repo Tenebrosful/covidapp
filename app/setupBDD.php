@@ -66,7 +66,7 @@ Capsule::schema()->create('messages', function ($table) {
 
     $table->string('contenu');
 
-    $table->date('date');
+    $table->timestamp('date', 0);
 
     $table->timestamps();
 

@@ -34,4 +34,5 @@ class Message extends Model
      * @var array
      */
     protected $hidden = [];
+
 }

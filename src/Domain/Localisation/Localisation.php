@@ -3,8 +3,8 @@
 
 namespace App\Domain\Localisation;
 
-
 use Illuminate\Database\Eloquent\Model;
+use App\Domain\Utilisateur\Utilisateur;
 
 class Localisation extends Model
 {
@@ -34,4 +34,10 @@ class Localisation extends Model
      * @var array
      */
     protected $hidden = [];
+
+    public function utilisateur() {
+        // Un seul utilisateur pour chaque localisation
+        return $this->hasOne('App\Domain\Utilisateur');
+    }
+
 }

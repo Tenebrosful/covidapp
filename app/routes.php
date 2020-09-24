@@ -6,6 +6,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 
+use App\Application\Actions\Messages\MessageReadAction;
+
 use App\Application\Actions\User\ListUsersAction;
 use App\Application\Actions\User\ViewUserAction;
 
@@ -19,6 +21,8 @@ return function (App $app) {
         $response->getBody()->write('Hello world!');
         return $response;
     });
+
+    $app->get('/messages/{id}', MessageReadAction::class)->setName('messages-get');
 
     $app->group('/users', function (Group $group) {
     });
