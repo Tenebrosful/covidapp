@@ -22,6 +22,17 @@ return function (App $app) {
         return $response;
     });
 
+    $app->get('/testtwig/{name}', function (Request $request, Response $response, $args) {
+        $str = $this->get('view')->fetchFromString(
+            '<p>Hi, my name is {{ name }}.</p>',
+            [
+                'name' => $args['name']
+            ]
+        );
+        $response->getBody()->write($str);
+        return $response;
+    });
+
     $app->get('/messages/{id}', MessageReadAction::class)->setName('messages-get');
 
     $app->group('/users', function (Group $group) {

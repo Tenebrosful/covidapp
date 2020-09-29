@@ -7,6 +7,7 @@ use App\Application\ResponseEmitter\ResponseEmitter;
 use DI\ContainerBuilder;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Slim\Factory\AppFactory;
+use Slim\Views\Twig;
 use Slim\Factory\ServerRequestCreatorFactory;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -58,10 +59,16 @@ $container = $containerBuilder->build();
 
 // Instantiate the app
 AppFactory::setContainer($container);
+
+// Set view in Container (configuration pour twig)
+$container->set('view', function() {
+    return Twig::create('../templates', ['cache' => '../tmp/twig']);
+});
+
 $app = AppFactory::create();
 $callableResolver = $app->getCallableResolver();
 
-// Register middleware
+// Register middleware (middleware pour twig rajouté dans le fichier lui-même)
 $middleware = require __DIR__ . '/../app/middleware.php';
 $middleware($app);
 
