@@ -4,8 +4,6 @@ namespace App\Domain\Localisation;
 
 // Localisation est un modèle d'Eloquent
 use Illuminate\Database\Eloquent\Model;
-// On importe les entités dont on a besoin dans le code
-use App\Domain\Utilisateur\Utilisateur;
 
 class Localisation extends Model {
     /*
@@ -35,12 +33,8 @@ class Localisation extends Model {
      * Une méthode pour retrouver l'utilisateur d'une localisation
      */
     public function utilisateur() {
-        // One to one correct
-        // Localisation belongs to Utilisateur (si 2 personnes peuvent être au même endroit)
-        return $this->belongsTo('App\Domain\Utilisateur\Utilisateur');
-        //return $this->belongsToMany('App\Domain\Utilisateur\Utilisateur', 'utilisateurlocalisation', 'id_user', 'id_localisation');
-        //return $this->belongsToMany('App\Domain\Utilisateur\Utilisateur')->using('App\Domain\UtilisateurLocalisation');
-        //return $this->hasOneThrough('App\Domain\Utilisateur\Utilisateur', 'App\Domain\UtilisateurLocalisation\UtilisateurLocalisation', 'id_localisation', 'id_user');
+        // One to one correct mais marche pas avec Pivot table
+        return $this->belongsToMany('App\Domain\Utilisateur\Utilisateur', 'utilisateurlocalisation', 'id_localisation', 'id_user');
     }
 
 }

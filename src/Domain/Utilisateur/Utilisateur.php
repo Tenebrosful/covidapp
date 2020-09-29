@@ -52,4 +52,8 @@ class Utilisateur extends Model
     {
         return $this->belongsToMany("App\Domain\Message\Message", "messagerie", "id_user_destinataire", "id_message")->get();
     }
+
+    public function localisations() {
+        return $this->belongsToMany('App\Domain\Localisation\Localisation', 'utilisateurlocalisation', 'id_user', 'id_localisation');
+    }
 }
