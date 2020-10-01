@@ -15,10 +15,8 @@ class SessionMiddleware implements Middleware
      */
     public function process(Request $request, RequestHandler $handler): Response
     {
-        var_dump($_SERVER);
         session_start();
         $request = $request->withAttribute('session', $_SESSION);
-
         return $handler->handle($request);
     }
 }

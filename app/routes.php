@@ -29,7 +29,6 @@ return function (App $app) {
     $app->group('/account', function (Group $group) {
         // Affiche le formulaire de connexion (rajout en double pour une version avec et sans le message)
         $group->get('/signin', function (Request $request, Response $response, $args) {
-            session_start();
             return $this->get('view')->render($response, 'signin.html', [
                 'message' => isset($_SESSION['message']) ? $_SESSION['message'] : '',
             ]);
