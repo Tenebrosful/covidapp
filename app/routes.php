@@ -56,6 +56,6 @@ return function (App $app) {
             else
                 return $response->withHeader('Location', 'account/signin')->withStatus(301);
         })->setName('welcome');
-    });
+    })->add(LoggedMiddleware::class);
 
 };
