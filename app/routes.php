@@ -37,14 +37,13 @@ return function (App $app) {
 
         // Action pour authentifier l'utilisateur
         $group->post('/authenticate', AuthenticateAction::class)->setName('authenticate');
-    })->add(SessionMiddleware::class);
+    });
 
     $app->group('', function (Group $group) {
         // Action pour souhaiter la bienvenue à l'utilisateur
         $group->get('/welcome', WelcomeAction::class)->setName('welcome');
 
         $group->get('/messages/{id}', MessageReadAction::class)->setName('messages-get');
-    })->add(SessionMiddleware::class)
-        ->add(LoggedMiddleware::class);
+    })->add(LoggedMiddleware::class);
 
 };
