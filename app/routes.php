@@ -5,7 +5,6 @@ use App\Application\Actions\AuthenticateAction;
 use App\Application\Actions\Messages\MessageReadAction;
 use App\Application\Actions\User\ListUsersAction;
 use App\Application\Actions\User\ViewUserAction;
-use App\Application\Actions\WelcomeAction;
 use App\Application\Middleware\LoggedMiddleware;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -35,13 +34,21 @@ return function (App $app) {
 
         // Action pour authentifier l'utilisateur
         $group->post('/authenticate', AuthenticateAction::class)->setName('authenticate');
+
+        // Action pour déconnecter l'utilisateur
+        $group->get('/signout', function (Request $request, Response $response, $args) {
+            session_destroy();
+            return $response->withHeader('Location', 'signin')->withStatus(301);
+        })->setName('signout');
     });
 
     $app->group('', function (Group $group) {
         // Action pour souhaiter la bienvenue à l'utilisateur
-        $group->get('/welcome', WelcomeAction::class)->setName('welcome');
-
-        $group->get('/messages/{id}', MessageReadAction::class)->setName('messages-get');
+        $group->get('/welcome',  function (Request $request, Response $response, $args) {
+            return $this->get('view')->render($response, 'welcome.html', [
+                'nomutilisateur' => $_SESSION['user_id'],
+            ]);
+        })->setName('welcome');
     })->add(LoggedMiddleware::class);
 
 };
