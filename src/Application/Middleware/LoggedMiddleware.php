@@ -7,6 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface as Middleware;
 use Psr\Http\Server\RequestHandlerInterface;
+use Slim\Psr7\Response;
 use Slim\Routing\RouteContext;
 
 class LoggedMiddleware implements Middleware
@@ -20,7 +21,8 @@ class LoggedMiddleware implements Middleware
             $routeParser = RouteContext::fromRequest($request)->getRouteParser();
             $url = $routeParser->urlFor('signin', ['message' => "L'accès à cette page require d'être connecté !"]);
 
-            return $handler->handle($request)->withHeader('Location', $url)->withStatus(302);
+            $response = new Response();
+            return $response->withHeader('Location', $url)->withStatus(302);
         }
     }
 }
