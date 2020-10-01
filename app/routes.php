@@ -7,6 +7,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 
 use App\Application\Actions\AuthenticateAction;
+use App\Application\Actions\WelcomeAction;
 
 use App\Application\Actions\Messages\MessageReadAction;
 
@@ -37,15 +38,17 @@ return function (App $app) {
 
     // Affiche le formulaire de connexion (rajout en double pour une version avec et sans le message)
     $app->get('/signin', function (Request $request, Response $response, $args) {
+        session_start();
         return $this->get('view')->render($response, 'signin.html', [
-            'message' => isset($_POST['message']) ? $_POST['message'] : '',
+            'message' => isset($_SESSION['message']) ? $_SESSION['message'] : '',
         ]);
     })->setName('signin');
 
     // Action pour authentifier l'utilisateur
     $app->post('/authenticate', AuthenticateAction::class)->setName('authenticate');
-    // Il faut récupérer le retour de AuthenticateAction et faire une redirection en fonction
-    //$app->redirect()
+
+    // Action pour souhaiter la bienvenue à l'utilisateur
+    $app->get('/welcome', WelcomeAction::class)->setName('welcome');
 
     $app->get('/messages/{id}', MessageReadAction::class)->setName('messages-get');
 

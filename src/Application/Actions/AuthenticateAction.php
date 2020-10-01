@@ -6,6 +6,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use App\Domain\Utilisateur\Utilisateur;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
  * Action
@@ -25,38 +26,35 @@ final class AuthenticateAction {
         ResponseInterface $response,
         array $args = []
     ): ResponseInterface {
-        return $response;
         session_start();
         if (isset($_POST['username']) && $_POST['username'] != '' && isset($_POST['password']) && $_POST['password'] != '') {
             $username = htmlentities($_POST['username']);
             $password = htmlentities($_POST['password']);
-            
-            /*require_once('utilisateurModel.php');
-            $utilisateurmodel = new utilisateurModel();
-            $donneesutilisateur = $utilisateurmodel->read($username);
+            $utilisateur = new Utilisateur();
             $utilisateurvalide = false;
             $authentificationvalide = false;
-            if ($donneesutilisateur !== false) {
+            try {
+                $donneesutilisateur = $utilisateur->where('email', $username)->firstOrFail();
                 $utilisateurvalide = true;
-                if (password_verify($password, $donneesutilisateur['password']))
+                //if (password_verify($password, $donneesutilisateur->pluck('mdpCrypte')->toArray()[0]))
+                if ($password === $donneesutilisateur->pluck('mdpCrypte')->toArray()[0])
                     $authentificationvalide = true;
-            }
+            } catch (ModelNotFoundException $e) { }
 
             if ($authentificationvalide) {
                 $_SESSION['username'] = $username;
-                header('Location: welcome');
+                return $response->withHeader('Location', 'welcome')->withStatus(301);
             } else {
                 if (!$utilisateurvalide)
                     $_SESSION['message'] = "Le nom d'utilisateur semble ne pas exister dans notre base de données !";
                 else
                     $_SESSION['message'] = "Le nom d'utilisateur existe mais le mot de passe fournit ne correspond pas !";
-                header('Location: signin');
-            }*/
+                return $response->withHeader('Location', 'signin')->withStatus(301);
+            }
 
         } else {
-            session_destroy();
+            $_SESSION['message'] = "Vous devez renseigner les 2 champs !";
             return $response->withHeader('Location', 'signin')->withStatus(301);
         }
-
     }
 }
