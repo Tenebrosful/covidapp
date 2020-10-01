@@ -32,7 +32,6 @@ COPY public /app/public
 COPY src /app/src
 COPY templates /app/templates
 COPY tests /app/tests
-COPY tmp /app/tmp
 COPY var /app/var
 COPY vendor /app/vendor
 

@@ -7,8 +7,8 @@ use App\Application\ResponseEmitter\ResponseEmitter;
 use DI\ContainerBuilder;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Slim\Factory\AppFactory;
-use Slim\Views\Twig;
 use Slim\Factory\ServerRequestCreatorFactory;
+use Slim\Views\Twig;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -62,7 +62,7 @@ AppFactory::setContainer($container);
 
 // Set view in Container (configuration pour twig)
 $container->set('view', function() {
-    return Twig::create('../templates', ['cache' => '../tmp/twig']);
+    return Twig::create('../templates', ['cache' => '/tmp']);
 });
 
 $app = AppFactory::create();
