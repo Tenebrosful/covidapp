@@ -50,7 +50,7 @@ class Utilisateur extends Model
      */
     public function messagesRecus()
     {
-        return $this->belongsToMany("App\Domain\Message\Message", "messagerie", "id_user_destinataire", "id_message")->get();
+        return $this->belongsToMany("App\Domain\Message\Message", "messagerie", "id_user", "id_localisation")->get();
     }
 
     public function localisations() {
