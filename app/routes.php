@@ -1,29 +1,19 @@
 <?php
 declare(strict_types=1);
 
-use Slim\App;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
-use Slim\Interfaces\RouteCollectorProxyInterface as Group;
-
 use App\Application\Actions\AuthenticateAction;
-use App\Application\Actions\WelcomeAction;
-
 use App\Application\Actions\Messages\MessageReadAction;
-
 use App\Application\Actions\User\ListUsersAction;
 use App\Application\Actions\User\ViewUserAction;
+use App\Application\Actions\WelcomeAction;
+use App\Application\Middleware\LoggedMiddleware;
+use App\Application\Middleware\SessionMiddleware;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\App;
+use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 
 return function (App $app) {
-    $app->options('/{routes:.*}', function (Request $request, Response $response) {
-        // CORS Pre-Flight OPTIONS Request Handler
-        return $response;
-    });
-
-    $app->get('/', function (Request $request, Response $response) {
-        $response->getBody()->write('Hello world!');
-        return $response;
-    });
 
     $app->get('/testtwig/{name}', function (Request $request, Response $response, $args) {
         $str = $this->get('view')->fetchFromString(
@@ -36,22 +26,25 @@ return function (App $app) {
         return $response;
     });
 
-    // Affiche le formulaire de connexion (rajout en double pour une version avec et sans le message)
-    $app->get('/signin', function (Request $request, Response $response, $args) {
-        session_start();
-        return $this->get('view')->render($response, 'signin.html', [
-            'message' => isset($_SESSION['message']) ? $_SESSION['message'] : '',
-        ]);
-    })->setName('signin');
+    $app->group('/account', function (Group $group) {
+        // Affiche le formulaire de connexion (rajout en double pour une version avec et sans le message)
+        $group->get('/signin', function (Request $request, Response $response, $args) {
+            session_start();
+            return $this->get('view')->render($response, 'signin.html', [
+                'message' => isset($_SESSION['message']) ? $_SESSION['message'] : '',
+            ]);
+        })->setName('signin');
 
-    // Action pour authentifier l'utilisateur
-    $app->post('/authenticate', AuthenticateAction::class)->setName('authenticate');
+        // Action pour authentifier l'utilisateur
+        $group->post('/authenticate', AuthenticateAction::class)->setName('authenticate');
+    })->add(SessionMiddleware::class);
 
-    // Action pour souhaiter la bienvenue à l'utilisateur
-    $app->get('/welcome', WelcomeAction::class)->setName('welcome');
+    $app->group('', function (Group $group) {
+        // Action pour souhaiter la bienvenue à l'utilisateur
+        $group->get('/welcome', WelcomeAction::class)->setName('welcome');
 
-    $app->get('/messages/{id}', MessageReadAction::class)->setName('messages-get');
+        $group->get('/messages/{id}', MessageReadAction::class)->setName('messages-get');
+    })->add(SessionMiddleware::class)
+        ->add(LoggedMiddleware::class);
 
-    $app->group('/users', function (Group $group) {
-    });
 };
