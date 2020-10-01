@@ -42,8 +42,9 @@ final class AuthenticateAction {
             } catch (ModelNotFoundException $e) { }
 
             if ($authentificationvalide) {
-                $_SESSION['username'] = $username;
-                return $response->withHeader('Location', 'welcome')->withStatus(301);
+                $_SESSION['user_id'] = $username;
+                $urlcomplete = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http")."://".$_SERVER['HTTP_HOST'];
+                return $response->withHeader('Location', $urlcomplete.'/welcome')->withStatus(301);
             } else {
                 if (!$utilisateurvalide)
                     $_SESSION['message'] = "Le nom d'utilisateur semble ne pas exister dans notre base de données !";
