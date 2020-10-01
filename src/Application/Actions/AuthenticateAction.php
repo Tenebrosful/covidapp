@@ -26,7 +26,6 @@ final class AuthenticateAction {
         ResponseInterface $response,
         array $args = []
     ): ResponseInterface {
-        session_start();
         if (isset($_POST['username']) && $_POST['username'] != '' && isset($_POST['password']) && $_POST['password'] != '') {
             $username = htmlentities($_POST['username']);
             $password = htmlentities($_POST['password']);
