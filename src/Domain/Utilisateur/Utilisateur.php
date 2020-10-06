@@ -53,7 +53,7 @@ class Utilisateur extends Model
      */
     public function messagesRecus()
     {
-        return $this->belongsToMany("App\Domain\Message\Message", "messagerie", "id_user_destinataire", "id_message")->get();
+        return $this->belongsToMany("App\Domain\Message\Message", "messagerie", "id_groupe", "id_message")->get();
     }
 
     public function localisations()
