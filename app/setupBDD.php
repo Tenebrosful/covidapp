@@ -135,8 +135,8 @@ Capsule::schema()->create('localisations', function ($table) {
 
 });
 
-Capsule::schema()->dropIfExists('utilisateurlocalisation');
-Capsule::schema()->create('utilisateurlocalisation', function ($table) {
+Capsule::schema()->dropIfExists('utilisateurLocalisation');
+Capsule::schema()->create('utilisateurLocalisation', function ($table) {
 
     $table->integer('id_user')->unsigned();
 
