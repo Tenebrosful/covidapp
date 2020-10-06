@@ -61,11 +61,13 @@ class Utilisateur extends Model
         return $this->belongsToMany('App\Domain\Localisation\Localisation', 'utilisateurlocalisation', 'id_user', 'id_localisation');
     }
 
-    /*
+    /**
      * @param string email
+     * @throw ModelNotFoundException
+     * @return Utilisateur
      */
     static public function getByEmail($email)
     {
-        return Utilisateur::where('email', '=', $email)->first();
+        return Utilisateur::where('email', '=', $email)->firstOrFail();
     }
 }
