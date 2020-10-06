@@ -62,7 +62,7 @@ AppFactory::setContainer($container);
 
 // Set view in Container (configuration pour twig)
 $container->set('view', function() {
-    return Twig::create('../templates', ['cache' => '/tmp']);
+    return Twig::create('../templates', ['cache' => false]);
 });
 
 $app = AppFactory::create();
