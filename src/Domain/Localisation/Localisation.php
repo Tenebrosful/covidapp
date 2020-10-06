@@ -34,7 +34,7 @@ class Localisation extends Model {
      */
     public function utilisateur() {
         // One to one correct mais marche pas avec Pivot table
-        return $this->belongsToMany('App\Domain\Utilisateur\Utilisateur', 'utilisateurlocalisation', 'id_localisation', 'id_user');
+        return $this->belongsToMany('App\Domain\Utilisateur\Utilisateur', 'utilisateurLocalisation', 'id_localisation', 'id_user');
     }
 
 }

@@ -58,7 +58,7 @@ class Utilisateur extends Model
 
     public function localisations()
     {
-        return $this->belongsToMany('App\Domain\Localisation\Localisation', 'utilisateurlocalisation', 'id_user', 'id_localisation');
+        return $this->belongsToMany('App\Domain\Localisation\Localisation', 'utilisateurLocalisation', 'id_user', 'id_localisation');
     }
 
     /**
