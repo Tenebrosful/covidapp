@@ -27,7 +27,7 @@ $capsule->bootEloquent();
 
 // Suppression de clés primaires pour pouvoir supprimer les tables
 if (Capsule::schema()->hasTable('messagerie')) {
-	Capsule::schema()->table('messagerie', function(Blueprint $table) {
+    Capsule::schema()->table('messagerie', function (Blueprint $table) {
         $table->dropForeign(['id_user_auteur']);
         $table->dropForeign(['id_groupe']);
         $table->dropForeign(['id_message']);
