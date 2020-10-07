@@ -20,7 +20,6 @@ RUN docker-php-ext-install -j$(nproc) opcache pdo_mysql
 COPY docker/conf/php.conf /usr/local/etc/php/conf.d/app.ini
 
 # Apache
-COPY docker/errors /errors
 COPY docker/conf/vhost.conf /etc/apache2/sites-available/000-default.conf
 COPY docker/conf/apache.conf /etc/apache2/conf-available/z-app.conf
 

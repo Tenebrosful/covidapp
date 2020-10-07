@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+    web:
+        image: covidapp
+        ports:
+            - "80:80"
+        volumes:
+            - "$PWD":/app
+        links:
+            - mysql:mysql
+    mysql:
+        image: mysql:5.5
+        volumes:
+            - "$PWD"/mysql:/var/lib/mysql
+        ports:
+            - "3306:3306"
+        environment:
+            - MYSQL_ROOT_PASSWORD=meilleurmdpaumonde
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        ports:
+            - "8080:80"
+        links:
+            - mysql:mysql
