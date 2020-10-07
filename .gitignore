@@ -27,6 +27,7 @@ node_modules/
 
 # Rajouté manuellement
 logs/
+mysqldata/
 
 # External tool builders
 .externalToolBuilders/
