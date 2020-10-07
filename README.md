@@ -10,10 +10,8 @@
 composer install
 `
 
-## Ensuite créer l'image covidapp (voir répertoire docker)
-`cd .docker`
-
-## Puis créer le répertoire mysqldata et run tous les containers
+## Puis créer le répertoire mysqldata et build+run tous les containers
+À la racine du projet :\
 `mkdir mysqldata`\
 `chmod 777 mysqldata`\
 `docker-compose up`

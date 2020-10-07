@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <!-- Bootstrap CSS -->
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <!-- Tempus Dominus CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha512-PMjWzHVtwxdq7m7GIxBot5vdxUY+5aKP9wpKtvnNBZrVv1srI8tU6xvFMzG8crLNcMj/8Xl/WWmo/oAP/40p1g==" crossorigin="anonymous" />
+    <title>Connectez-vous !</title>
+</head>
+<body>
+    <div class="container">
+        <div class="card mt-5">
+            <div class="card-body">
+                <form action="adduser" method="POST">
+                    {% if message|default %}
+                    <div class='alert alert-info' role='alert'>{{message}}</div>
+                    {% endif %}
+                    <div class="form-group">
+                        <label for="inputEmail">Nom d'utilisateur</label>
+                        <input name="username" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Donnez votre nom d'utilisateur..." required type="email">
+                        <small id="emailHelp" class="form-text text-muted">Vous avez la liberté de choisir n'importe quel !</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPerso">Données personelles</label>
+                        <input name="nom" type="text" class="form-control" id="inputPerso1" aria-describedby="persoHelp" placeholder="Votre nom..." required>
+                        <input name="prenom" type="text" class="form-control mt-2" id="inputPerso2" aria-describedby="persoHelp" placeholder="Votre prénom..." required>
+                        <small id="persoHelp" class="form-text text-muted">Bah ici c'est pas si simple de changer comme on veut !</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputNais">Date de naissance</label>
+                        <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                            <input name="datenaissance" id="inputNais" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
+                            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword">Mot de passe</label>
+                        <input name="password" type="password" class="form-control" id="inputPassword1" placeholder="Tapez le mot de passe..." required>
+                        <input name="repassword" type="password" class="form-control mt-2" id="inputPassword2" placeholder="Retapez le mot de passe..." required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                </form>
+            </div>
+            <div class="card-footer text-right text-muted">
+                <a href="signin" class="card-link">Déjà inscrit ? Cliquez ici !</a>
+            </div>
+        </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script crossorigin="anonymous"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- Moment.js -->
+    <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
+    <!-- Tempus Dominus JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha512-2JBCbWoMJPH+Uj7Wq5OLub8E5edWHlTM4ar/YJkZh3plwB2INhhOC3eDoqHm1Za/ZOSksrLlURLoyXVdfQXqwg==" crossorigin="anonymous"></script>
+    <!-- JS propre -->
+    <script>
+        moment.locale('fr');
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                locale: 'fr',
+                format: 'YYYY-MM-DD'
+            });
+        });
+    </script>
+</body>
+</html>

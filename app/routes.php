@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use App\Application\Actions\AuthenticateAction;
+use App\Application\Actions\AddUserAction;
 use App\Application\Actions\Messages\MessageReadAction;
 use App\Application\Actions\User\ListUsersAction;
 use App\Application\Actions\User\ViewUserAction;
@@ -25,7 +26,17 @@ return function (App $app) {
     });
 
     $app->group('/account', function (Group $group) {
-        // Affiche le formulaire de connexion (rajout en double pour une version avec et sans le message)
+        // Affiche le formulaire d'inscription
+        $group->get('/signup', function (Request $request, Response $response, $args) {
+            return $this->get('view')->render($response, 'signup.html', [
+                'message' => isset($_SESSION['message']) ? $_SESSION['message'] : '',
+            ]);
+        })->setName('signup');
+
+        // Action pour rajouter un utilisateur
+        $group->post('/adduser', AddUserAction::class)->setName('adduser');
+
+        // Affiche le formulaire de connexion
         $group->get('/signin', function (Request $request, Response $response, $args) {
             return $this->get('view')->render($response, 'signin.html', [
                 'message' => isset($_SESSION['message']) ? $_SESSION['message'] : '',

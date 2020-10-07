@@ -35,25 +35,19 @@ final class AuthenticateAction
                 $donneesUtilisateur = Utilisateur::getByEmail($username);
                 //if (password_verify($password, $donneesUtilisateur->pluck('mdpCrypte')->toArray()[0]))
             } catch (ModelNotFoundException $e) {
-                $_SESSION['message'] = "La combinaison d'identifiant est incorrecte !";
+                $_SESSION['message'] = "La combinaison d'authentification est incorrecte !";
                 return $response->withHeader('Location', 'signin')->withStatus(301);
             }
-
-            if ($password === $donneesUtilisateur->mdpCrypte) {
+            if (password_verify($password, $donneesUtilisateur->mdpCrypte)) {
                 $_SESSION['user_id'] = $donneesUtilisateur->id;
                 $_SESSION['username'] = $donneesUtilisateur->email;
                 $routeParser = RouteContext::fromRequest($request)->getRouteParser();
                 $url = $routeParser->urlFor('welcome');
                 return $response->withHeader('Location', $url)->withStatus(301);
             } else {
-
-                $_SESSION['message'] = "La combinaison d'identifiant est incorrecte !";
+                $_SESSION['message'] = "La combinaison d'authentification est incorrecte !";
                 return $response->withHeader('Location', 'signin')->withStatus(301);
             }
-
-        } else {
-            $_SESSION['message'] = "Vous devez renseigner les 2 champs !";
-            return $response->withHeader('Location', 'signin')->withStatus(301);
         }
     }
 }

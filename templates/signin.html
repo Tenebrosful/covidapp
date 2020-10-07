@@ -10,51 +10,48 @@
     <title>Connectez-vous !</title>
 </head>
 <body>
-<div class="container">
-    <div class="card mt-5">
-        <div class="card-body">
-
-            <form action="authenticate" method="POST">
-                {% if message|default %}
-                <div class='alert alert-info' role='alert'>{{message}}</div>
-                {% endif %}
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Nom d'utilisateur</label>
-                    <input aria-describedby="emailHelp" class="form-control" id="exampleInputEmail1"
-                           name="username" placeholder="Donnez votre nom d'utilisateur..." required type="email">
-                    <small class="form-text text-muted" id="emailHelp">Vous avez la liberté de choisir n'importe quel
-                        !</small>
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Mot de passe</label>
-                    <input class="form-control" id="exampleInputPassword1" name="password"
-                           placeholder="Tapez le mot de passe..." required type="password">
-                </div>
-                <div class="form-group form-check">
-                    <input checked="checked" class="form-check-input" id="exampleCheck1" name="subscribe"
-                           type="checkbox">
-                    <label class="form-check-label" for="exampleCheck1">Ne m'oublie pas :(</label>
-                </div>
-                <button class="btn btn-primary" type="submit">Valider</button>
-            </form>
+    <div class="container">
+        <div class="card mt-5">
+            <div class="card-body">
+                <form action="authenticate" method="POST">
+                    {% if message|default %}
+                    <div class='alert alert-info' role='alert'>{{message}}</div>
+                    {% endif %}
+                    <div class="form-group">
+                        <label for="inputEmail">Nom d'utilisateur</label>
+                        <input aria-describedby="emailHelp" class="form-control" id="inputEmail"
+                            name="username" placeholder="Donnez votre nom d'utilisateur..." required type="email">
+                        <small class="form-text text-muted" id="emailHelp">Vous avez la liberté de choisir n'importe quel
+                            !</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword">Mot de passe</label>
+                        <input class="form-control" id="inputPassword" name="password"
+                            placeholder="Tapez le mot de passe..." required type="password">
+                    </div>
+                    <div class="form-group form-check">
+                        <input checked="checked" class="form-check-input" id="checkSubscribe" name="subscribe"
+                            type="checkbox">
+                        <label class="form-check-label" for="checkSubscribe">Ne m'oublie pas :(</label>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Valider</button>
+                </form>
+            </div>
+            <div class="card-footer text-right text-muted">
+                <a class="card-link" href="signup">Pas encore inscrit ? Cliquez ici !</a>
+            </div>
         </div>
-        <div class="card-footer text-right text-muted">
-            <a class="card-link" href="signup">Pas encore inscrit ? Cliquez ici !</a>
-        </div>
-
     </div>
-</div>
-</div>
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script crossorigin="anonymous"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script crossorigin="anonymous"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script crossorigin="anonymous"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script crossorigin="anonymous"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
