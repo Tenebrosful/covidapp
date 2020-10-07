@@ -14,11 +14,8 @@ services:
             - .:/app
     mysql:
         image: mysql
-        environment:
-            - MYSQL_ROOT_PASSWORD=root
-            - MYSQL_USER=covidapp
-            - MYSQL_PASSWORD=meilleurmdpaumonde
-            - MYSQL_DATABASE=covidapp
+        env_file:
+            - docker-compose.env
         volumes:
             - ./mysqldata:/var/lib/mysql
     phpmyadmin:
