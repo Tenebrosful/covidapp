@@ -6,6 +6,10 @@ namespace App\Domain\Groupe;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method static where(string $colonne, string $comparateur, mixed $valeur)
+ * @method static find(array $primaryKeys)
+ */
 class Groupe extends Model
 {
     /*
@@ -40,5 +44,13 @@ class Groupe extends Model
     static public function getById($id)
     {
         return Groupe::find([$id])->first();
+    }
+
+    /*
+     * Retourne les membres d'un groupe
+     */
+    public function membres()
+    {
+        return $this->belongsToMany("App\Domain\Utilisateur\Utilisateur", "groupeUtilisateur", "id_groupe", "is_user")->get();
     }
 }
