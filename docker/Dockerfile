@@ -23,16 +23,5 @@ COPY docker/conf/php.conf /usr/local/etc/php/conf.d/app.ini
 COPY docker/conf/vhost.conf /etc/apache2/sites-available/000-default.conf
 COPY docker/conf/apache.conf /etc/apache2/conf-available/z-app.conf
 
-# CovidApp : pas besoin de copier !
-#COPY app /app/app
-#COPY config /app/config
-#COPY logs /app/logs
-#COPY public /app/public
-#COPY src /app/src
-#COPY templates /app/templates
-#COPY tests /app/tests
-#COPY var /app/var
-#COPY vendor /app/vendor
-
 RUN a2enmod rewrite remoteip && \
     a2enconf z-app
