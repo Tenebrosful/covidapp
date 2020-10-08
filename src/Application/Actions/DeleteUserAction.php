@@ -27,8 +27,8 @@ final class DeleteUserAction
         array $args = []
     ): ResponseInterface
     {
-        $utilisateurasupprimer = Utilisateur::getById($_SESSION['user_id']);
-        $utilisateurasupprimer->delete();
+        $utilisateur = Utilisateur::getById($_SESSION['user_id']);
+        $utilisateur->delete();
         session_destroy();
 
         $routeParser = RouteContext::fromRequest($request)->getRouteParser();
