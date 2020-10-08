@@ -12,7 +12,7 @@ error_reporting(E_ALL);
 $capsule = new Capsule;
 
 
-if (is_array($bddConfig = parse_ini_file('../config/bdd.ini')))
+if (is_array($bddConfig = parse_ini_file('./config/bdd.ini')))
     $capsule->addConnection($bddConfig);
 else {
     echo "ERREUR : Fichier de configuration de la base de donnée introuvable";
