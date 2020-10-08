@@ -5,6 +5,7 @@ namespace App\Application\Actions;
 use App\Domain\Utilisateur\Utilisateur;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Routing\RouteContext;
 
 /**
  * Action
@@ -26,6 +27,8 @@ final class AddUserAction
         array $args = []
     ): ResponseInterface
     {
+        $routeParser = RouteContext::fromRequest($request)->getRouteParser();
+
         if (!empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['repassword']) && !empty($_POST['nom']) && !empty($_POST['prenom']) && !empty($_POST['dateNaissance'])) {
             $email = htmlentities($_POST['email']);
             $nom = htmlentities($_POST['nom']);
@@ -33,9 +36,10 @@ final class AddUserAction
             $dateNaissance = htmlentities($_POST['dateNaissance']);
             $password = htmlentities($_POST['password']);
             $repassword = htmlentities($_POST['repassword']);
+
             if ($password !== $repassword) {
                 $_SESSION['message'] = "Les mots de passe ne correspondent pas !";
-                return $response->withHeader('Location', 'signup')->withStatus(301);
+                return $response->withHeader('Location', $routeParser->urlFor('signup'))->withStatus(301);
             } else {
                 $nouveauUtilisateur = new Utilisateur();
                 $nouveauUtilisateur->email = $email;
@@ -45,11 +49,11 @@ final class AddUserAction
                 $nouveauUtilisateur->dateNais = $dateNaissance;
                 $nouveauUtilisateur->save();
                 $_SESSION['message'] = "Votre compte a été créé ! Vous pouvez désormais vous connecter ! ^^";
-                return $response->withHeader('Location', 'signin')->withStatus(301);
+                return $response->withHeader('Location', $routeParser->urlFor('signin'))->withStatus(301);
             }
         } else {
             $_SESSION['message'] = "Étrangement, toutes les informations requises n'ont pas été transmises ...";
-            return $response->withHeader('Location', 'signup')->withStatus(301);
+            return $response->withHeader('Location', $routeParser->urlFor('signup'))->withStatus(301);
         }
     }
 }
