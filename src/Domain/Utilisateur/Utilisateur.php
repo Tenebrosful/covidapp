@@ -58,6 +58,11 @@ class Utilisateur extends Model
         return $this->belongsToMany("App\Domain\Message\Message", "messagerie", "id_groupe", "id_message")->get();
     }
 
+    public function groupes()
+    {
+        return $this->belongsToMany("App\Domain\Groupe\Groupe", "groupeUtilisateur", "id_user", "id_groupe")->get();
+    }
+
     public function localisations()
     {
         return $this->belongsToMany('App\Domain\Localisation\Localisation', 'utilisateurLocalisation', 'id_user', 'id_localisation')->get();
