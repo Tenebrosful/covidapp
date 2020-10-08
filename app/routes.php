@@ -71,6 +71,18 @@ return function (App $app) {
                 'email' => $_SESSION['email']
             ]);
         })->setName('welcome');
+        // Action pour afficher la messagerie
+        $group->get('/messagerie', function (Request $request, Response $response, $args) {
+            return $this->get('view')->render($response, 'messagerie.html', [
+                'email' => $_SESSION['email']
+            ]);
+        })->setName('messagerie');
+        // Action pour afficher les groupes
+        $group->get('/groupes', function (Request $request, Response $response, $args) {
+            return $this->get('view')->render($response, 'groupes.html', [
+                'email' => $_SESSION['email']
+            ]);
+        })->setName('groupes');
     })->add(LoggedMiddleware::class);
 
 };
