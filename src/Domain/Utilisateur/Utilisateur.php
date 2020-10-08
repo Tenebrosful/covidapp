@@ -11,17 +11,17 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Utilisateur extends Model
 {
-    /*
+    /**
      * Nom de la table
      */
     protected $table = 'utilisateurs';
 
-    /*
+    /**
      * Nom de la primary key
      */
     protected $primaryKey = 'id';
 
-    /*
+    /**
      * Liste des colones modifiables
      *
      * @var array
@@ -34,14 +34,14 @@ class Utilisateur extends Model
         'dateNais'
     ];
 
-    /*
+    /**
      * Liste des colones à caché en cas de conversion en String / JSON
      *
      * @var array
      */
     protected $hidden = ['mdpCrypte'];
 
-    /*
+    /**
      * Retourne la liste des messages envoyés par l'utilisateur
      */
     public function messagesEnvoyes()
@@ -49,7 +49,7 @@ class Utilisateur extends Model
         return $this->belongsToMany("App\Domain\Message\Message", "messagerie", "id_user_auteur", "id_message")->get();
     }
 
-    /*
+    /**
      * @TODO Fix
      * Retourne la liste des messages reçus par l'utilisateur
      */

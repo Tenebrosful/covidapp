@@ -10,15 +10,15 @@ use Illuminate\Database\Eloquent\Model;
  * @method static find(array $primaryKeys)
  */
 class Localisation extends Model {
-    /*
+    /**
      * Nom de la table
      */
     protected $table = 'localisations';
-    /*
+    /**
      * Nom de la primary key
      */
     protected $primaryKey = 'id';
-    /*
+    /**
      * Liste des colones modifiables
      *
      * @var array
@@ -27,14 +27,14 @@ class Localisation extends Model {
         'latitude',
         'longitude'
     ];
-    /*
+    /**
      * Liste des colones à cacher en cas de conversion en String / JSON
      *
      * @var array
      */
     protected $hidden = [];
 
-    /*
+    /**
      * Une méthode pour retrouver l'utilisateur d'une localisation
      */
     public function utilisateur()

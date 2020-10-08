@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class GroupeUtilisateur extends Pivot
 {
-    /*
+    /**
      * Nom de la table
      */
     protected $table = 'groupeUtilisateur';
 
-    /*
+    /**
      * Nom de la primary key
      */
     protected $primaryKey = [
@@ -23,7 +23,7 @@ class GroupeUtilisateur extends Pivot
 
     protected $incrementing = false;
 
-    /*
+    /**
      * Liste des colones modifiables
      *
      * @var array
@@ -33,7 +33,7 @@ class GroupeUtilisateur extends Pivot
         'id_user'
     ];
 
-    /*
+    /**
      * Liste des colones à caché en cas de conversion en String / JSON
      *
      * @var array

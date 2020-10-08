@@ -11,17 +11,17 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Message extends Model
 {
-    /*
+    /**
      * Nom de la table
      */
     protected $table = 'messages';
 
-    /*
+    /**
      * Nom de la primary key
      */
     protected $primaryKey = 'id';
 
-    /*
+    /**
      * Liste des colones modifiables
      *
      * @var array
@@ -31,7 +31,7 @@ class Message extends Model
         'date'
     ];
 
-    /*
+    /**
      * Liste des colones à caché en cas de conversion en String / JSON
      *
      * @var array

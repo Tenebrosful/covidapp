@@ -12,24 +12,24 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Groupe extends Model
 {
-    /*
+    /**
      * Nom de la table
      */
     protected $table = 'groupe';
 
-    /*
+    /**
      * Nom de la primary key
      */
     protected $primaryKey = 'id';
 
-    /*
+    /**
      * Liste des colones modifiables
      *
      * @var array
      */
     protected $fillable = [];
 
-    /*
+    /**
      * Liste des colones à caché en cas de conversion en String / JSON
      *
      * @var array
@@ -46,7 +46,7 @@ class Groupe extends Model
         return Groupe::find([$id])->first();
     }
 
-    /*
+    /**
      * Retourne les membres d'un groupe
      */
     public function membres()
