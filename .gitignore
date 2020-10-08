@@ -24,6 +24,7 @@ composer.phar
 node_modules/
 *.ini
 *.cache
+*.env
 
 # Rajouté manuellement
 logs/
