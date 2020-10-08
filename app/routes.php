@@ -16,17 +16,6 @@ use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 
 return function (App $app) {
 
-    $app->get('/testtwig/{name}', function (Request $request, Response $response, $args) {
-        $str = $this->get('view')->fetchFromString(
-            '<p>Hi, my name is {{ name }}.</p>',
-            [
-                'name' => $args['name']
-            ]
-        );
-        $response->getBody()->write($str);
-        return $response;
-    });
-
     $app->group('/account', function (Group $group) {
         // Affiche le formulaire d'inscription
         $group->get('/signup', function (Request $request, Response $response, $args) {
