@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @method static where(string $colonne, string $comparateur, mixed $valeur)
+ * @method static find(array $primaryKeys)
  */
 class Utilisateur extends Model
 {
@@ -69,5 +70,15 @@ class Utilisateur extends Model
     static public function getByEmail($email)
     {
         return Utilisateur::where('email', '=', $email)->firstOrFail();
+    }
+
+    /**
+     * @param int email
+     * @throw ModelNotFoundException
+     * @return Utilisateur
+     */
+    static public function getById($id)
+    {
+        return Utilisateur::find([$id])->firstOrFail();
     }
 }

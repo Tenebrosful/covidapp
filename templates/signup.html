@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <title>Inscrivez-vous !</title>
+</head>
+<body>
+<div class="container">
+    <div class="card mt-5">
+        <div class="card-body">
+            <form action="adduser" method="POST">
+                {% if message|default %}
+                <div class='alert alert-info' role='alert'>{{message}}</div>
+                {% endif %}
+                <div class="form-group">
+                    <label for="inputEmail">Nom d'utilisateur</label>
+                    <input id="inputEmail" name="email" type="email" class="form-control"
+                           aria-describedby="emailHelp" placeholder="Adresse email" autocomplete="email" required>
+                    <small id="emailHelp" class="form-text text-muted">Vous vous connecterez avec votre adresse email
+                        dans le futur !</small>
+                </div>
+                <div class="form-group">
+                    <label>Données personelles</label>
+                    <input name="nom" type="text" class="form-control" id="inputNom" aria-describedby="persoHelp"
+                           placeholder="Nom" autocomplete="family-name" required>
+                    <input name="prenom" type="text" class="form-control mt-2" id="inputPrenom"
+                           aria-describedby="persoHelp" placeholder="Prénom" autocomplete="given-name" required>
+                    <small id="persoHelp" class="form-text text-muted">Ces informations pourrons être anonymisés
+                        !</small>
+                </div>
+                <div class="form-group">
+                    <label for="inputNais">Date de naissance</label>
+                    <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                        <input name="dateNaissance" id="inputNais" type="date" class="form-control datetimepicker-input"
+                               autocomplete="bday" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Mot de passe</label>
+                    <input name="password" type="password" class="form-control" id="inputPassword"
+                           placeholder="Mot de passe" autocomplete="new-password"
+                           onchange="if(this.checkValidity()) form.repassword.pattern = this.value;" required>
+                    <input name="repassword" type="password" class="form-control mt-2" id="inputConfirmPassword"
+                           placeholder="Confirmez votre mot de passe" autocomplete="off"
+                           onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Les mots de passe ne correspondent pas.' : '');"
+                           required>
+                </div>
+                <button type="submit" class="btn btn-primary">Sauvegarder</button>
+            </form>
+        </div>
+        <div class="card-footer text-right text-muted">
+            <a href="signin" class="card-link">Déjà inscrit ? Cliquez ici !</a>
+        </div>
+    </div>
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+</body>
+</html>

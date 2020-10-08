@@ -4,3 +4,7 @@
 `docker run -p 5050:80 covidapp`
 # Pour démarrer le container en mode développement (pas besoin de recréer l'image)
 `docker run -p 5050:80 -v "$PWD":/app covidapp`
+
+## À ignorer (pour explications uniquement)
+`docker run --name mon-propre-mysql -e MYSQL_ROOT_PASSWORD=meilleurmdpaumonde -v "$PWD"/mysql:/var/lib/mysql -d mysql`\
+`docker run --name mon-propre-phpmyadmin --link mon-propre-mysql:db -p 8081:80 -d phpmyadmin/phpmyadmin`

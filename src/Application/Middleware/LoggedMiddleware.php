@@ -19,10 +19,9 @@ class LoggedMiddleware implements Middleware
             return $handler->handle($request);
         } else {
             $routeParser = RouteContext::fromRequest($request)->getRouteParser();
-            $url = $routeParser->urlFor('signin', ['message' => "L'accès à cette page require d'être connecté !"]);
 
             $response = new Response();
-            return $response->withHeader('Location', $url)->withStatus(302);
+            return $response->withHeader('Location', $routeParser->urlFor('signin', ['message' => "L'accès à cette page require d'être connecté !"]))->withStatus(302);
         }
     }
 }
