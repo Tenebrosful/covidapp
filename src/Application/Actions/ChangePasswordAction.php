@@ -26,7 +26,7 @@ final class ChangePasswordAction
         array $args = []
     ): ResponseInterface
     {
-        if (isset($_POST['password']) && $_POST['password'] != '' && isset($_POST['repassword']) && $_POST['repassword'] != '') {
+        if (!empty($_POST['password']) && !empty($_POST['repassword'])) {
             $password = htmlentities($_POST['password']);
             $repassword = htmlentities($_POST['repassword']);
             if ($password !== $repassword) {
