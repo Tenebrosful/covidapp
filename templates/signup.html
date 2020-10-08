@@ -46,9 +46,12 @@
                 <div class="form-group">
                     <label>Mot de passe</label>
                     <input name="password" type="password" class="form-control" id="inputPassword"
-                           placeholder="Mot de passe" autocomplete="new-password" required>
+                           placeholder="Mot de passe" autocomplete="new-password"
+                           onchange="if(this.checkValidity()) form.repassword.pattern = this.value;" required>
                     <input name="repassword" type="password" class="form-control mt-2" id="inputConfirmPassword"
-                           placeholder="Confirmez votre mot de passe" autocomplete="off" required>
+                           placeholder="Confirmez votre mot de passe" autocomplete="off"
+                           onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Les mots de passe ne correspondent pas.' : '');"
+                           required>
                 </div>
                 <button type="submit" class="btn btn-primary">Sauvegarder</button>
             </form>
