@@ -26,27 +26,30 @@ final class AddUserAction
         array $args = []
     ): ResponseInterface
     {
-        if (isset($_POST['username']) && $_POST['username'] != '' && isset($_POST['password']) && $_POST['password'] != '' && isset($_POST['repassword']) && $_POST['repassword'] != '') {
-            $username = htmlentities($_POST['username']);
+        if (!empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['repassword']) && !empty($_POST['nom']) && !empty($_POST['prenom']) && !empty($_POST['dateNaissance'])) {
+            $email = htmlentities($_POST['email']);
             $nom = htmlentities($_POST['nom']);
             $prenom = htmlentities($_POST['prenom']);
-            $datenaissance = htmlentities($_POST['datenaissance']);
+            $dateNaissance = htmlentities($_POST['dateNaissance']);
             $password = htmlentities($_POST['password']);
             $repassword = htmlentities($_POST['repassword']);
             if ($password !== $repassword) {
-                $_SESSION['message'] = "Le mot de passe et sa confirmation sont différents ! Faites gaffe quand vous tapez !";
+                $_SESSION['message'] = "Les mots de passe ne correspondent pas !";
                 return $response->withHeader('Location', 'signup')->withStatus(301);
             } else {
-                $nouveauutilisateur = new Utilisateur();
-                $nouveauutilisateur->email = $username;
-                $nouveauutilisateur->mdpCrypte = password_hash($password, PASSWORD_BCRYPT);
-                $nouveauutilisateur->nom = $nom;
-                $nouveauutilisateur->prenom = $prenom;
-                $nouveauutilisateur->dateNais = $datenaissance;
-                $nouveauutilisateur->save();
-                $_SESSION['message'] = "L'utilisateur a été rajouté ! Vous pouvez vous connecter ^^";
+                $nouveauUtilisateur = new Utilisateur();
+                $nouveauUtilisateur->email = $email;
+                $nouveauUtilisateur->mdpCrypte = password_hash($password, PASSWORD_BCRYPT);
+                $nouveauUtilisateur->nom = $nom;
+                $nouveauUtilisateur->prenom = $prenom;
+                $nouveauUtilisateur->dateNais = $dateNaissance;
+                $nouveauUtilisateur->save();
+                $_SESSION['message'] = "Votre compte a été créé ! Vous pouvez désormais vous connecter ! ^^";
                 return $response->withHeader('Location', 'signin')->withStatus(301);
             }
+        } else {
+            $_SESSION['message'] = "Étrangement, toutes les informations requises n'ont pas été transmises ...";
+            return $response->withHeader('Location', 'signup')->withStatus(301);
         }
     }
 }
