@@ -11,14 +11,14 @@ class GroupeUtilisateur extends Pivot
     /*
      * Nom de la table
      */
-    protected $table = 'utilisateurlocalisation';
+    protected $table = 'groupeUtilisateur';
 
     /*
      * Nom de la primary key
      */
     protected $primaryKey = [
         'id_user',
-        'id_localisation'
+        'id_groupe'
     ];
 
     protected $incrementing = false;
