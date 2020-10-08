@@ -73,7 +73,7 @@ class Utilisateur extends Model
     }
 
     /**
-     * @param int email
+     * @param int id
      * @throw ModelNotFoundException
      * @return Utilisateur
      */

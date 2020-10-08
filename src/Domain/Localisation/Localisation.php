@@ -5,6 +5,10 @@ namespace App\Domain\Localisation;
 // Localisation est un modèle d'Eloquent
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method static where(string $colonne, string $comparateur, mixed $valeur)
+ * @method static find(array $primaryKeys)
+ */
 class Localisation extends Model {
     /*
      * Nom de la table
@@ -29,12 +33,23 @@ class Localisation extends Model {
      * @var array
      */
     protected $hidden = [];
+
     /*
      * Une méthode pour retrouver l'utilisateur d'une localisation
      */
-    public function utilisateur() {
-        // One to one correct mais marche pas avec Pivot table
+    public function utilisateur()
+    {
         return $this->belongsToMany('App\Domain\Utilisateur\Utilisateur', 'utilisateurLocalisation', 'id_localisation', 'id_user');
+    }
+
+    /**
+     * @param int email
+     * @throw ModelNotFoundException
+     * @return Localisation
+     */
+    static public function getById($id)
+    {
+        return Localisation::find([$id])->first();
     }
 
 }
