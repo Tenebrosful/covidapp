@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
 
-use App\Application\Actions\AuthenticateAction;
 use App\Application\Actions\AddUserAction;
+use App\Application\Actions\AuthenticateAction;
 use App\Application\Actions\ChangePasswordAction;
 use App\Application\Actions\DeleteUserAction;
 use App\Application\Actions\Messages\MessageReadAction;
@@ -20,16 +20,20 @@ return function (App $app) {
 
         // Page d'inscription
         $group->get('/signup', function (Request $request, Response $response, $args) {
-            return $this->get('view')->render($response, 'signup.html', [
+            $res = $this->get('view')->render($response, 'signup.html', [
                 'message' => isset($_SESSION['message']) ? $_SESSION['message'] : '',
             ]);
+            unset($_SESSION['message']);
+            return $res;
         })->setName('signup');
 
         // Page de connexion
         $group->get('/signin', function (Request $request, Response $response, $args) {
-            return $this->get('view')->render($response, 'signin.html', [
+            $res = $this->get('view')->render($response, 'signin.html', [
                 'message' => isset($_SESSION['message']) ? $_SESSION['message'] : '',
             ]);
+            unset($_SESSION['message']);
+            return $res;
         })->setName('signin');
 
         // Action pour déconnecter l'utilisateur (Redirection vers la page de connexion)
@@ -46,9 +50,11 @@ return function (App $app) {
 
         // Formulaire pour changer le mot de passe
         $group->get('/formpassword', function (Request $request, Response $response, $args) {
-            return $this->get('view')->render($response, 'formpassword.html', [
+            $res = $this->get('view')->render($response, 'formpassword.html', [
                 'message' => isset($_SESSION['message']) ? $_SESSION['message'] : ''
             ]);
+            unset($_SESSION['message']);
+            return $res;
         })->setName('formpassword')->add(LoggedMiddleware::class);
 
         // Action pour changer le mot de passe
@@ -60,7 +66,7 @@ return function (App $app) {
 
     $app->group('', function (Group $group) {
         // Action pour souhaiter la bienvenue à l'utilisateur
-        $group->get('/welcome',  function (Request $request, Response $response, $args) {
+        $group->get('/welcome', function (Request $request, Response $response, $args) {
             return $this->get('view')->render($response, 'welcome.html', [
                 'email' => $_SESSION['email']
             ]);
