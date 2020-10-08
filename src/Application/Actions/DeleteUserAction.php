@@ -5,6 +5,7 @@ namespace App\Application\Actions;
 use App\Domain\Utilisateur\Utilisateur;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Routing\RouteContext;
 
 /**
  * Action
@@ -26,9 +27,11 @@ final class DeleteUserAction
         array $args = []
     ): ResponseInterface
     {
-        $utilisateurasupprimer = Utilisateur::getByEmail($_SESSION['username']);
+        $utilisateurasupprimer = Utilisateur::getById($_SESSION['user_id']);
         $utilisateurasupprimer->delete();
         session_destroy();
-        return $response->withHeader('Location', 'signin')->withStatus(301);
+
+        $routeParser = RouteContext::fromRequest($request)->getRouteParser();
+        return $response->withHeader('Location', $routeParser->urlFor('signin'))->withStatus(301);
     }
 }
