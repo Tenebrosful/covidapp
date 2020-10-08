@@ -79,6 +79,6 @@ class Utilisateur extends Model
      */
     static public function getById($id)
     {
-        return Utilisateur::find([$id])->firstOrFail();
+        return Utilisateur::find([$id])->first();
     }
 }
