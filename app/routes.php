@@ -62,7 +62,7 @@ return function (App $app) {
         // Action pour souhaiter la bienvenue à l'utilisateur
         $group->get('/welcome',  function (Request $request, Response $response, $args) {
             return $this->get('view')->render($response, 'welcome.html', [
-                'nomutilisateur' => $_SESSION['username']
+                'email' => $_SESSION['email']
             ]);
         })->setName('welcome');
     })->add(LoggedMiddleware::class);
