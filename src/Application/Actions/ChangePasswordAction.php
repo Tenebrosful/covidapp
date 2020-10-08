@@ -37,7 +37,7 @@ final class ChangePasswordAction
                 $repassword = htmlentities($_POST['repassword']);
                 if ($password !== $repassword) {
                     $_SESSION['message'] = "Les mots de passe ne correspondent pas !";
-                    return $response->withHeader('Location', $routeParser->urlFor('changepassword'))->withStatus(301);
+                    return $response->withHeader('Location', $routeParser->urlFor('formpassword'))->withStatus(301);
                 } else {
                     $utilisateur->mdpCrypte = password_hash($password, PASSWORD_BCRYPT);
                     $utilisateur->save();
@@ -45,7 +45,7 @@ final class ChangePasswordAction
                 }
             } else {
                 $_SESSION['message'] = "Votre ancien mot de passe est incorrect !";
-                return $response->withHeader('Location', $routeParser->urlFor('changepassword'))->withStatus(301);
+                return $response->withHeader('Location', $routeParser->urlFor('formpassword'))->withStatus(301);
             }
         }
     }
