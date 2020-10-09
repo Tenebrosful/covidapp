@@ -1,4 +1,4 @@
-FROM php:7.5-apache
+FROM php:7.4-apache
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
