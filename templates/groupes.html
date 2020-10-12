@@ -10,72 +10,72 @@
     <link rel="stylesheet href="/css/messagerie.css">
     <title>Messagerie nickel</title>
 </head>
-<body>
+<body class="bg-dark">
 <div class="container">
-    <div class="card mt-5">
+    <div class="card bg-secondary text-white mt-5">
         <ul class="list-group list-group-flush">
-            <a href="/messagerie" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">Groupes de personnes gentilles
+            <a href="/messagerie" class="list-group-item list-group-item-dark list-group-item-action d-flex justify-content-between align-items-center">Groupes de personnes gentilles
                 <div class="d-flex">
-                    <button type="button" class="btn btn-sm btn-outline-warning mr-1">Modifier</button>
-                    <button type="button" class="btn btn-sm btn-outline-danger">Supprimer</button>
+                    <button type="button" class="btn btn-sm btn-warning mr-1">Modifier</button>
+                    <button type="button" class="btn btn-sm btn-danger">Supprimer</button>
                 </div>
             </a>
-            <a href="/messagerie" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">Les méchants
+            <a href="/messagerie" class="list-group-item list-group-item-dark list-group-item-action d-flex justify-content-between align-items-center">Les méchants
                 <div class="d-flex">
-                    <button type="button" class="btn btn-sm btn-outline-warning mr-1">Modifier</button>
-                    <button type="button" class="btn btn-sm btn-outline-danger">Supprimer</button>
+                    <button type="button" class="btn btn-sm btn-warning mr-1">Modifier</button>
+                    <button type="button" class="btn btn-sm btn-danger">Supprimer</button>
                 </div>
             </a>
-            <a href="/messagerie" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">Les losers
+            <a href="/messagerie" class="list-group-item list-group-item-dark list-group-item-action d-flex justify-content-between align-items-center">Les losers
                 <div class="d-flex">
-                    <button type="button" class="btn btn-sm btn-outline-warning mr-1">Modifier</button>
-                    <button type="button" class="btn btn-sm btn-outline-danger">Supprimer</button>
+                    <button type="button" class="btn btn-sm btn-warning mr-1">Modifier</button>
+                    <button type="button" class="btn btn-sm btn-danger">Supprimer</button>
                 </div>
             </a>
         </ul>
         <div class="card-footer text-right text-muted">
-            <a data-toggle="modal" data-target="#rajoutGroupesModal" class="card-link">Rajouter des groupes</a>
-            <a href="/welcome" class="card-link">Revenir à la page d'acceuil</a>
+            <a data-toggle="modal" data-target="#rajoutGroupesModal" class="card-link text-white">Rajouter des groupes</a>
+            <a href="/welcome" class="card-link text-white">Revenir à la page d'acceuil</a>
         </div>
     </div>
 </div>
 <!-- Modal pour rajouter des groupes -->
 <div class="modal fade" id="rajoutGroupesModal" tabindex="-1" aria-labelledby="rajoutGroupesModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="rajoutGroupesModalLabel">Rajouter des groupes</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                    David BARANIAK
-                    <span class='d-none' id='groupId'>1</span>
-                    <span id='groupChecked'>✔</span>
-                </li>
-                <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                    Hugo BERNARD
-                    <span class='d-none' id='groupId'>2</span>
-                    <span id='groupChecked'>✔</span>
-                </li>
-                <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                    Léonie MORBICHAUD
-                    <span class='d-none' id='groupId'>3</span>
-                    <span id='groupChecked'></span>
-                </li>
-            </ul>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-            <form class="form-inline">
-                <input type="hidden" name="groups">
-                <input type="text" name="grouptitle" class="form-control flex-fill mr-2" id="inputGroupTitle" placeholder="Tapez le nom du groupe..." required>
-                <button type="submit" class="btn btn-primary">Rajouter</button>
-            </form>
-        </div>
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content bg-secondary text-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rajoutGroupesModalLabel">Rajouter des groupes</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-dark list-group-item-action d-flex justify-content-between align-items-center">
+                        David BARANIAK
+                        <span class='d-none' id='groupId'>1</span>
+                        <span id='groupChecked'>✔</span>
+                    </li>
+                    <li class="list-group-item list-group-item-dark list-group-item-action d-flex justify-content-between align-items-center">
+                        Hugo BERNARD
+                        <span class='d-none' id='groupId'>2</span>
+                        <span id='groupChecked'>✔</span>
+                    </li>
+                    <li class="list-group-item list-group-item-dark list-group-item-action d-flex justify-content-between align-items-center">
+                        Léonie MORBICHAUD
+                        <span class='d-none' id='groupId'>3</span>
+                        <span id='groupChecked'></span>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-dismiss="modal">Annuler</button>
+                <form class="form-inline">
+                    <input type="hidden" name="groups">
+                    <input type="text" name="grouptitle" class="form-control flex-fill mr-2" id="inputGroupTitle" placeholder="Tapez le nom du groupe..." required>
+                    <button type="submit" class="btn btn-primary">Rajouter</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

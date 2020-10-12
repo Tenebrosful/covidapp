@@ -9,9 +9,9 @@
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <title>Connectez-vous !</title>
 </head>
-<body>
+<body class="bg-dark">
 <div class="container">
-    <div class="card mt-5">
+    <div class="card bg-secondary text-white mt-5">
         <div class="card-body">
             <form action="authenticate" method="POST">
                 {% if message|default %}
@@ -37,7 +37,7 @@
             </form>
         </div>
         <div class="card-footer text-right text-muted">
-            <a class="card-link" href="signup">Pas encore inscrit ? Cliquez ici !</a>
+            <a class="card-link text-white" href="signup">Pas encore inscrit ? Cliquez ici !</a>
         </div>
     </div>
 </div>

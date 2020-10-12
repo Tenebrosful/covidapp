@@ -9,22 +9,22 @@
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <title>Bienvenue !</title>
 </head>
-<body>
+<body class="bg-dark">
 <div class="container">
-    <div class="card mt-5">
+    <div class="card bg-secondary text-white mt-5">
         <div class="card-body">
 
             <h5 class="card-title">Bonjour !</h5>
-            <h6 class="card-subtitle mb-2 text-muted">{{email}}</h6>
+            <h6 class="card-subtitle mb-2 text-light">{{email}}</h6>
             <p class="card-text">Vous êtes maintenant connectés ! :D</p>
             <!-- À changer ! -->
-            <a class='btn btn-secondary btn-sm' href='account/signout' role='button'>Me déconnecter</a>
+            <a class='btn btn-light btn-sm' href='account/signout' role='button'>Me déconnecter</a>
             <a class='btn btn-warning btn-sm' href='account/formpassword' role='button'>Changer le mot de passe</a>
             <a class='btn btn-danger btn-sm' href='account/deleteuser' role='button'>Supprimez-moi !</a>
 
         </div>
         <div class="card-footer text-right text-muted">
-            <a href="/groupes" class="card-link">Accéder à la messagerie</a>
+            <a href="/groupes" class="card-link text-white">Accéder à la messagerie</a>
         </div>
     </div>
 </div>

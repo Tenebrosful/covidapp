@@ -12,9 +12,9 @@
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <title>Inscrivez-vous !</title>
 </head>
-<body>
+<body class="bg-dark">
 <div class="container">
-    <div class="card mt-5">
+    <div class="card bg-secondary text-white mt-5">
         <div class="card-body">
             <form action="adduser" method="POST">
                 {% if message|default %}
@@ -57,7 +57,7 @@
             </form>
         </div>
         <div class="card-footer text-right text-muted">
-            <a href="signin" class="card-link">Déjà inscrit ? Cliquez ici !</a>
+            <a href="signin" class="card-link text-white">Déjà inscrit ? Cliquez ici !</a>
         </div>
     </div>
 </div>
