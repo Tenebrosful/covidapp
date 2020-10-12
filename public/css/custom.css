@@ -1,0 +1,26 @@
+::-webkit-input-placeholder { /* WebKit browsers */
+    color: #ffffff!important;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #ffffff!important;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #ffffff!important;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: #ffffff!important;
+}
+.list-group-item-darker {
+    color: #ffffff;
+    background-color: #6c757d!important;
+}
+.list-group-item-darker.list-group-item-action:focus, .list-group-item-darker.list-group-item-action:hover {
+    color: #ffffff;
+    background-color: #555d63!important;
+}
+.modal-header {
+    border: 1px solid rgba(0,0,0,.125);
+}
+.modal-footer {
+    border: 1px solid rgba(0,0,0,.125);
+}

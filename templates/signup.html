@@ -7,9 +7,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/custom.css">
     <title>Inscrivez-vous !</title>
 </head>
 <body class="bg-dark">
@@ -21,36 +20,33 @@
                 <div class='alert alert-info' role='alert'>{{message}}</div>
                 {% endif %}
                 <div class="form-group">
-                    <label for="inputEmail">Nom d'utilisateur</label>
-                    <input id="inputEmail" name="email" type="email" class="form-control"
-                           aria-describedby="emailHelp" placeholder="Adresse email" autocomplete="email" required>
-                    <small id="emailHelp" class="form-text text-muted">Vous vous connecterez avec votre adresse email
+                    <label for="inputEmail">Adresse Email</label>
+                    <input id="inputEmail" name="email" type="email" class="form-control bg-secondary text-white"
+                           aria-describedby="emailHelp" placeholder="Adresse Email" autocomplete="email" required>
+                    <small id="emailHelp" class="form-text text-light">Vous vous connecterez avec votre adresse email
                         dans le futur !</small>
                 </div>
                 <div class="form-group">
                     <label>Données personelles</label>
-                    <input name="nom" type="text" class="form-control" id="inputNom" aria-describedby="persoHelp"
+                    <input name="nom" type="text" class="form-control bg-secondary text-white" id="inputNom" aria-describedby="persoHelp"
                            placeholder="Nom" autocomplete="family-name" required>
-                    <input name="prenom" type="text" class="form-control mt-2" id="inputPrenom"
+                    <input name="prenom" type="text" class="form-control bg-secondary text-white mt-2" id="inputPrenom"
                            aria-describedby="persoHelp" placeholder="Prénom" autocomplete="given-name" required>
-                    <small id="persoHelp" class="form-text text-muted">Ces informations pourrons être anonymisés
+                    <small id="persoHelp" class="form-text text-light">Ces informations pourrons être anonymisés
                         !</small>
                 </div>
                 <div class="form-group">
                     <label for="inputNais">Date de naissance</label>
-                    <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                        <input name="dateNaissance" id="inputNais" type="date" class="form-control datetimepicker-input"
-                               autocomplete="bday" required>
-                    </div>
+                    <input name="dateNaissance" id="inputNais" type="date" class="form-control bg-secondary text-white" autocomplete="bday" required>
                 </div>
                 <div class="form-group">
                     <label>Mot de passe</label>
-                    <input name="password" type="password" class="form-control" id="inputPassword"
+                    <input name="password" type="password" class="form-control bg-secondary text-white" id="inputPassword"
                            placeholder="Mot de passe" autocomplete="new-password"
                            onchange="if(this.checkValidity()) form.repassword.pattern = this.value;" required>
-                    <input name="repassword" type="password" class="form-control mt-2" id="inputConfirmPassword"
-                           placeholder="Confirmez votre mot de passe" autocomplete="off"
-                           onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Les mots de passe ne correspondent pas.' : '');"
+                    <input name="repassword" type="password" class="form-control bg-secondary text-white mt-2" id="inputConfirmPassword"
+                           placeholder="Confirmation mot de passe" autocomplete="off"
+                           onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Les mots de passe ne correspondent pas !' : '');"
                            required>
                 </div>
                 <button type="submit" class="btn btn-primary">Sauvegarder</button>
