@@ -15,6 +15,6 @@ composer install
 ```bash
 mkdir mysqldata\
 chmod 777 mysqldata\
-docker-compose exec web php app/setupBDD.php\
-docker-compose up
+docker-compose up\
+docker-compose exec web php app/setupBDD.php
 ```

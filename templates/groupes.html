@@ -15,24 +15,14 @@
 <div class="container">
     <div class="card bg-secondary text-white mt-5">
         <ul class="list-group list-group-flush">
-            <a href="/messagerie" class="list-group-item list-group-item-darker list-group-item-action d-flex justify-content-between align-items-center">Groupes de personnes gentilles
-                <div class="d-flex">
-                    <button type="button" class="btn btn-sm btn-warning mr-1">Modifier</button>
-                    <button type="button" class="btn btn-sm btn-danger">Supprimer</button>
-                </div>
-            </a>
-            <a href="/messagerie" class="list-group-item list-group-item-darker list-group-item-action d-flex justify-content-between align-items-center">Les méchants
-                <div class="d-flex">
-                    <button type="button" class="btn btn-sm btn-warning mr-1">Modifier</button>
-                    <button type="button" class="btn btn-sm btn-danger">Supprimer</button>
-                </div>
-            </a>
-            <a href="/messagerie" class="list-group-item list-group-item-darker list-group-item-action d-flex justify-content-between align-items-center">Les losers
-                <div class="d-flex">
-                    <button type="button" class="btn btn-sm btn-warning mr-1">Modifier</button>
-                    <button type="button" class="btn btn-sm btn-danger">Supprimer</button>
-                </div>
-            </a>
+            {% for groupe in groupes %}
+                <a href="/messagerie/{{groupe.id}}" class="list-group-item list-group-item-darker list-group-item-action d-flex justify-content-between align-items-center">{{groupe.nom}}
+                    <div class="d-flex">
+                        <button type="button" class="btn btn-sm btn-warning mr-1" onclick="window.location.href = '/modifygroup/{{groupe.id}}'">Modifier</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="window.location.href = '/deletegroup/{{groupe.id}}'">Supprimer</button>
+                    </div>
+                </a>
+            {% endfor %}
         </ul>
         <div class="card-footer text-right text-muted">
             <a data-toggle="modal" data-target="#rajoutGroupesModal" class="card-link text-white">Rajouter des groupes</a>
@@ -52,27 +42,19 @@
             </div>
             <div class="modal-body p-0">
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item list-group-item-darker list-group-item-action d-flex justify-content-between align-items-center">
-                        David BARANIAK
-                        <span class='d-none' id='groupId'>1</span>
-                        <span id='groupChecked'>✔</span>
-                    </li>
-                    <li class="list-group-item list-group-item-darker list-group-item-action d-flex justify-content-between align-items-center">
-                        Hugo BERNARD
-                        <span class='d-none' id='groupId'>2</span>
-                        <span id='groupChecked'>✔</span>
-                    </li>
-                    <li class="list-group-item list-group-item-darker list-group-item-action d-flex justify-content-between align-items-center">
-                        Léonie MORBICHAUD
-                        <span class='d-none' id='groupId'>3</span>
-                        <span id='groupChecked'></span>
-                    </li>
+                    {% for utilisateur in utilisateurs %}
+                        <li class="list-group-item list-group-item-darker list-group-item-action d-flex justify-content-between align-items-center">
+                            {{utilisateur.prenom}} {{utilisateur.nom}}
+                            <span class='d-none' id='groupId'>{{utilisateur.id}}</span>
+                            <span id='groupChecked'></span>
+                        </li>
+                    {% endfor %}
                 </ul>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-dismiss="modal">Annuler</button>
-                <form class="form-inline">
-                    <input type="hidden" name="groups">
+                <form class="form-inline" action="addgroup" method="POST">
+                    <input type="hidden" name="users">
                     <input type="text" name="grouptitle" class="form-control bg-secondary text-white flex-fill mr-2" id="inputGroupTitle" placeholder="Tapez le nom du groupe..." required>
                     <button type="submit" class="btn btn-primary">Rajouter</button>
                 </form>
@@ -101,12 +83,12 @@
     });
     // Lit quelles groupes on été choisies au submit du formulaire
     $('#rajoutGroupesModal').find('form').on('submit', function() {
-        let checkedGroups = [];
+        let checkedUsers = [];
         $('#rajoutGroupesModal').find('.list-group-item-action').each(function() {
             if ($(this).find('#groupChecked').text() === '✔')
-                checkedGroups.push($(this).find('#groupId').text());
+                checkedUsers.push($(this).find('#groupId').text());
         });
-        $(this).find("[name='groups']").val(checkedGroups.join());
+        $(this).find("[name='users']").val(checkedUsers.join());
     });
 </script>
 </body>

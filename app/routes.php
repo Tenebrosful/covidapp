@@ -13,8 +13,11 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
+use Slim\Routing\RouteContext;
 use App\Domain\Groupe\Groupe;
 use App\Domain\Utilisateur\Utilisateur;
+use App\Domain\GroupeUtilisateur\GroupeUtilisateur;
+use App\Domain\Message\Message;
 
 return function (App $app) {
 
@@ -74,25 +77,41 @@ return function (App $app) {
             ]);
         })->setName('welcome');
         // Action pour afficher la messagerie
-        $group->get('/messagerie', function (Request $request, Response $response, $args) {
+        $group->get('/messagerie/{groupid}', function (Request $request, Response $response, $args) {
+            // On récupère des messages crées dans ce groupe
+            $messages = Groupe::getById($args['groupid'])->messages()->toArray();
+            var_dump($messages);
             return $this->get('view')->render($response, 'messagerie.html', [
-                'email' => $_SESSION['email']
+                'email' => $_SESSION['email'],
+                'messages' => $messages
             ]);
         })->setName('messagerie');
         // Action pour afficher les groupes
         $group->get('/groupes', function (Request $request, Response $response, $args) {
             // Il faut récuperer la liste de groupes
             $groupes = Groupe::all()->toArray();
-            var_dump($groupes);
             // Et la liste des utilisateurs
             $utilisateurs = Utilisateur::all()->toArray();
-            var_dump($utilisateurs);
             return $this->get('view')->render($response, 'groupes.html', [
                 'email' => $_SESSION['email'],
                 'groupes' => $groupes,
                 'utilisateurs' => $utilisateurs
             ]);
         })->setName('groupes');
+        // Action pour rajouter un groupe
+        $group->post('/addgroup', function (Request $request, Response $response, $args) {
+            $nouveauGroupe = new Groupe();
+            $nouveauGroupe->nom = htmlentities($_POST['grouptitle']);
+            $nouveauGroupe->save();
+            foreach (explode(',', htmlentities($_POST['users'])) as $idUser) {
+                $nouveauGroupeUtilisateur = new GroupeUtilisateur();
+                $nouveauGroupeUtilisateur->id_groupe = $nouveauGroupe->id;
+                $nouveauGroupeUtilisateur->id_user = $idUser;
+                $nouveauGroupeUtilisateur->save();
+            }
+            $routeParser = RouteContext::fromRequest($request)->getRouteParser();
+            return $response->withHeader('Location', $routeParser->urlFor('groupes'))->withStatus(301);
+        })->setName('addgroup');
     })->add(LoggedMiddleware::class);
 
 };

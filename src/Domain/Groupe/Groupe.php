@@ -53,4 +53,12 @@ class Groupe extends Model
     {
         return $this->belongsToMany("App\Domain\Utilisateur\Utilisateur", "groupeUtilisateur", "id_groupe", "is_user")->get();
     }
+
+    /**
+     * Retourne les messages postées dans un groupe
+     */
+    public function messages()
+    {
+        return $this->belongsToMany("App\Domain\Message\Message", "messagerie", "id_groupe", "id_message")->get();
+    }
 }

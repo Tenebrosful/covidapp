@@ -21,7 +21,7 @@ class GroupeUtilisateur extends Pivot
         'id_groupe'
     ];
 
-    protected $incrementing = false;
+    public $incrementing = false;
 
     /**
      * Liste des colones modifiables
