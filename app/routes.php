@@ -13,6 +13,8 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
+use App\Domain\Groupe\Groupe;
+use App\Domain\Utilisateur\Utilisateur;
 
 return function (App $app) {
 
@@ -79,8 +81,16 @@ return function (App $app) {
         })->setName('messagerie');
         // Action pour afficher les groupes
         $group->get('/groupes', function (Request $request, Response $response, $args) {
+            // Il faut récuperer la liste de groupes
+            $groupes = Groupe::all()->toArray();
+            var_dump($groupes);
+            // Et la liste des utilisateurs
+            $utilisateurs = Utilisateur::all()->toArray();
+            var_dump($utilisateurs);
             return $this->get('view')->render($response, 'groupes.html', [
-                'email' => $_SESSION['email']
+                'email' => $_SESSION['email'],
+                'groupes' => $groupes,
+                'utilisateurs' => $utilisateurs
             ]);
         })->setName('groupes');
     })->add(LoggedMiddleware::class);

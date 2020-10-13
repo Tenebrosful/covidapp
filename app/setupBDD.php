@@ -80,11 +80,9 @@ Capsule::schema()->create('messages', function ($table) {
 
 Capsule::schema()->dropIfExists('groupe');
 Capsule::schema()->create('groupe', function ($table) {
-
     $table->increments('id');
-
+    $table->string('nom');
     $table->timestamps();
-
 });
 
 Capsule::schema()->dropIfExists('groupeUtilisateur');

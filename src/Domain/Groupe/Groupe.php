@@ -27,7 +27,7 @@ class Groupe extends Model
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = ['nom'];
 
     /**
      * Liste des colones à caché en cas de conversion en String / JSON
