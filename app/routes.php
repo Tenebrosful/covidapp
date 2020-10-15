@@ -18,6 +18,7 @@ use App\Domain\Groupe\Groupe;
 use App\Domain\Utilisateur\Utilisateur;
 use App\Domain\GroupeUtilisateur\GroupeUtilisateur;
 use App\Domain\Message\Message;
+use App\Domain\Messagerie\Messagerie;
 
 return function (App $app) {
 
@@ -80,12 +81,31 @@ return function (App $app) {
         $group->get('/messagerie/{groupid}', function (Request $request, Response $response, $args) {
             // On récupère des messages crées dans ce groupe
             $messages = Groupe::getById($args['groupid'])->messages()->toArray();
-            var_dump($messages);
+            foreach ($messages as $clemessage => $message) {
+                $auteurMessage = Utilisateur::getById($message['id_user_auteur']);
+                $messages[$clemessage]['nomprenomauteur'] = $auteurMessage->prenom." ".$auteurMessage->nom;
+            }
             return $this->get('view')->render($response, 'messagerie.html', [
-                'email' => $_SESSION['email'],
+                'idgroupe' => $args['groupid'],
+                'idutilisateurcourant' => $_SESSION['user_id'],
                 'messages' => $messages
             ]);
         })->setName('messagerie');
+        // Action pour rajouter un message
+        $group->post('/addmessage', function (Request $request, Response $response, $args) {
+            $nouveauMessage = new Message();
+            $nouveauMessage->id_user_auteur = htmlentities($_POST['authorid']);
+            $nouveauMessage->contenu = htmlentities($_POST['content']);
+            $datetime = new DateTime('now');
+            $nouveauMessage->date = $datetime->format('Y-m-d H:i:s');
+            $nouveauMessage->save();
+            $nouveauMessagerie = new Messagerie();
+            $nouveauMessagerie->id_groupe = htmlentities($_POST['groupid']);
+            $nouveauMessagerie->id_message = $nouveauMessage->id;
+            $nouveauMessagerie->save();
+            $routeParser = RouteContext::fromRequest($request)->getRouteParser();
+            return $response->withHeader('Location', $routeParser->urlFor('messagerie', ['groupid' => htmlentities($_POST['groupid'])]))->withStatus(301);
+        })->setName('addmessage');
         // Action pour afficher les groupes
         $group->get('/groupes', function (Request $request, Response $response, $args) {
             // Il faut récuperer la liste de groupes
@@ -93,7 +113,6 @@ return function (App $app) {
             // Et la liste des utilisateurs
             $utilisateurs = Utilisateur::all()->toArray();
             return $this->get('view')->render($response, 'groupes.html', [
-                'email' => $_SESSION['email'],
                 'groupes' => $groupes,
                 'utilisateurs' => $utilisateurs
             ]);

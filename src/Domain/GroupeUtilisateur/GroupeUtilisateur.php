@@ -17,8 +17,8 @@ class GroupeUtilisateur extends Pivot
      * Nom de la primary key
      */
     protected $primaryKey = [
-        'id_user',
-        'id_groupe'
+        'id_groupe',
+        'id_user'
     ];
 
     public $incrementing = false;

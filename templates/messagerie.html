@@ -18,39 +18,31 @@
             Groupe de personnes gentilles
         </div>
         <div class="card-body">
-
-            <div class="d-flex flex-column align-items-end mb-1">
-                <small class="text-light mb-0">DAVID</small>
-                <div class="alert alert-primary mb-0" role="alert">
-                    Ça c'est le premier message à moi !
-                </div>
-            </div>
-            <div class="d-flex flex-column align-items-start mb-1">
-                <small class="text-light mb-0">JOSEPHINE</small>
-                <div class="alert alert-dark mb-0" role="alert">
-                    Ça c'est un autre message !
-                </div>
-            </div>
-            <div class="d-flex flex-column align-items-start mb-1">
-                <small class="text-light mb-0">JULIETTE</small>
-                <div class="alert alert-dark mb-0" role="alert">
-                    Encore un autre message !
-                </div>
-            </div>
-            <div class="d-flex flex-column align-items-end mb-1">
-                <small class="text-light mb-0">DAVID</small>
-                <div class="alert alert-primary mb-0" role="alert">
-                    Salut !
-                </div>
-            </div>
-            <div class="d-flex flex-column align-items-end mb-1">
-                <small class="text-light mb-0">DAVID</small>
-                <div class="alert alert-primary mb-0" role="alert">
-                    Au revoir !
-                </div>
-            </div>
-            <form class="form-inline mt-3">
-                <textarea rows=1 type="text" class="form-control bg-secondary text-white flex-fill mr-2" id="inputMessage" placeholder="Tapez le message..." required></textarea>
+            {% for message in messages %}
+                {% if message.id_user_auteur == idutilisateurcourant %}
+                    <div class="d-flex flex-column align-items-end mb-1">
+                        <small class="text-light mb-0">{{message.nomprenomauteur}}</small>
+                        <div class="alert alert-primary mb-0" role="alert">
+                            {{message.contenu}}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="d-flex flex-column align-items-start mb-1">
+                        <small class="text-light mb-0">{{message.nomprenomauteur}}</small>
+                        <div class="alert alert-dark mb-0" role="alert">
+                            {{message.contenu}}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            {% if messages %}
+                <form class="form-inline mt-3 mb-0" action="/addmessage" method="POST">
+            {% else %}
+                <form class="form-inline mt-0 mb-0" action="/addmessage" method="POST">
+            {% endif %}
+                <input type="hidden" name="groupid" value="{{idgroupe}}">
+                <input type="hidden" name="authorid" value="{{idutilisateurcourant}}">
+                <textarea rows=1 type="text" class="form-control bg-secondary text-white flex-fill mr-2" id="inputMessage" name="content" placeholder="Tapez le message..." required></textarea>
                 <button type="submit" class="btn btn-primary">Envoyer</button>
             </form>
 

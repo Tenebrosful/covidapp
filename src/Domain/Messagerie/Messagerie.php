@@ -17,12 +17,11 @@ class Messagerie extends Pivot
      * Nom de la primary key
      */
     protected $primaryKey = [
-        'id_user_auteur',
-        'id_user_destinataire',
+        'id_groupe',
         'id_message'
     ];
 
-    protected $incrementing = false;
+    public $incrementing = false;
 
     /**
      * Liste des colones modifiables
@@ -30,8 +29,7 @@ class Messagerie extends Pivot
      * @var array
      */
     protected $fillable = [
-        'id_user_auteur',
-        'id_user_destinataire',
+        'id_groupe',
         'id_message'
     ];
 

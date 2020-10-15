@@ -27,6 +27,7 @@ class Message extends Model
      * @var array
      */
     protected $fillable = [
+        'id_user_auteur',
         'contenu',
         'date'
     ];
