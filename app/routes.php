@@ -9,16 +9,16 @@ use App\Application\Actions\Messages\MessageReadAction;
 use App\Application\Actions\User\ListUsersAction;
 use App\Application\Actions\User\ViewUserAction;
 use App\Application\Middleware\LoggedMiddleware;
+use App\Domain\Groupe\Groupe;
+use App\Domain\GroupeUtilisateur\GroupeUtilisateur;
+use App\Domain\Message\Message;
+use App\Domain\Messagerie\Messagerie;
+use App\Domain\Utilisateur\Utilisateur;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 use Slim\Routing\RouteContext;
-use App\Domain\Groupe\Groupe;
-use App\Domain\Utilisateur\Utilisateur;
-use App\Domain\GroupeUtilisateur\GroupeUtilisateur;
-use App\Domain\Message\Message;
-use App\Domain\Messagerie\Messagerie;
 
 return function (App $app) {
 
