@@ -21,16 +21,16 @@
             {% for message in messages %}
                 {% if message.id_user_auteur == idutilisateurcourant %}
                     <div class="d-flex flex-column align-items-end mb-1">
-                        <small class="text-light mb-0">{{message.nomprenomauteur}}</small>
+                        <small class="text-light mb-0">{{message.nomprenomauteur|e}}</small>
                         <div class="alert alert-primary mb-0" role="alert">
-                            {{message.contenu}}
+                            {{message.contenu|e}}
                         </div>
                     </div>
                 {% else %}
                     <div class="d-flex flex-column align-items-start mb-1">
-                        <small class="text-light mb-0">{{message.nomprenomauteur}}</small>
+                        <small class="text-light mb-0">{{message.nomprenomauteur|e}}</small>
                         <div class="alert alert-dark mb-0" role="alert">
-                            {{message.contenu}}
+                            {{message.contenu|e}}
                         </div>
                     </div>
                 {% endif %}
@@ -40,8 +40,8 @@
             {% else %}
                 <form class="form-inline mt-0 mb-0" action="/addmessage" method="POST">
             {% endif %}
-                <input type="hidden" name="groupid" value="{{idgroupe}}">
-                <input type="hidden" name="authorid" value="{{idutilisateurcourant}}">
+                <input type="hidden" name="groupid" value="{{idgroupe|e}}">
+                <input type="hidden" name="authorid" value="{{idutilisateurcourant|e}}">
                 <textarea rows=1 type="text" class="form-control bg-secondary text-white flex-fill mr-2" id="inputMessage" name="content" placeholder="Tapez le message..." required></textarea>
                 <button type="submit" class="btn btn-primary">Envoyer</button>
             </form>
