@@ -1,5 +1,5 @@
 {
-    "name": "appCovid/appCovid",
+    "name": "covidapp/covidapp",
     "description": "Application de gestion de crise lié au COVID-19",
     "require": {
         "php": "^7.4",
@@ -33,6 +33,8 @@
     },
     "scripts": {
         "start": "php -S localhost:8080 -t public",
-        "test": "phpunit"
+        "test": "phpunit",
+        "docker": "docker-compose up",
+        "docker-bdd": "docker-compose exec web php app/setupBDD.php"
     }
 }
