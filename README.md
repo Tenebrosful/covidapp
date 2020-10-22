@@ -1,4 +1,4 @@
-# CovidApp
+# covidapp
 *Développé par Hugo Bernard et David Baraniak*
 
 
