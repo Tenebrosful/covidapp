@@ -77,13 +77,14 @@ return function (App $app) {
                 'email' => $_SESSION['email']
             ]);
         })->setName('welcome');
+
         // Action pour afficher la messagerie
         $group->get('/messagerie/{groupid}', function (Request $request, Response $response, $args) {
             // On récupère des messages crées dans ce groupe
             $messages = Groupe::getById($args['groupid'])->messages()->toArray();
             foreach ($messages as $clemessage => $message) {
                 $auteurMessage = Utilisateur::getById($message['id_user_auteur']);
-                $messages[$clemessage]['nomprenomauteur'] = $auteurMessage->prenom." ".$auteurMessage->nom;
+                $messages[$clemessage]['nomprenomauteur'] = $auteurMessage->prenom . " " . $auteurMessage->nom;
             }
             return $this->get('view')->render($response, 'messagerie.html', [
                 'idgroupe' => $args['groupid'],
@@ -91,6 +92,7 @@ return function (App $app) {
                 'messages' => $messages
             ]);
         })->setName('messagerie');
+
         // Action pour rajouter un message
         $group->post('/addmessage', function (Request $request, Response $response, $args) {
             $nouveauMessage = new Message();
@@ -106,6 +108,7 @@ return function (App $app) {
             $routeParser = RouteContext::fromRequest($request)->getRouteParser();
             return $response->withHeader('Location', $routeParser->urlFor('messagerie', ['groupid' => $_POST['groupid']]))->withStatus(301);
         })->setName('addmessage');
+
         // Action pour afficher les groupes
         $group->get('/groupes', function (Request $request, Response $response, $args) {
             // Il faut récuperer la liste de groupes
@@ -117,18 +120,22 @@ return function (App $app) {
                 'utilisateurs' => $utilisateurs
             ]);
         })->setName('groupes');
+
         // Action pour rajouter un groupe
         $group->post('/addgroup', function (Request $request, Response $response, $args) {
-            $nouveauGroupe = new Groupe();
-            $nouveauGroupe->nom = filter_var($_POST['grouptitle'], FILTER_SANITIZE_STRING);
-            $nouveauGroupe->save();
-            foreach (explode(',', $_POST['users']) as $idUser) {
-                $nouveauGroupeUtilisateur = new GroupeUtilisateur();
-                $nouveauGroupeUtilisateur->id_groupe = $nouveauGroupe->id;
-                $nouveauGroupeUtilisateur->id_user = $idUser;
-                $nouveauGroupeUtilisateur->save();
-            }
             $routeParser = RouteContext::fromRequest($request)->getRouteParser();
+
+            if (!empty($_POST['users']) || !empty($_POST['grouptitle'])) {
+                $nouveauGroupe = new Groupe();
+                $nouveauGroupe->nom = filter_var($_POST['grouptitle'], FILTER_SANITIZE_STRING);
+                $nouveauGroupe->save();
+                foreach (explode(',', $_POST['users']) as $idUser) {
+                    $nouveauGroupeUtilisateur = new GroupeUtilisateur();
+                    $nouveauGroupeUtilisateur->id_groupe = $nouveauGroupe->id;
+                    $nouveauGroupeUtilisateur->id_user = $idUser;
+                    $nouveauGroupeUtilisateur->save();
+                }
+            } else $_SESSION["message"] = "Certaines informations sont manquantes";
             return $response->withHeader('Location', $routeParser->urlFor('groupes'))->withStatus(301);
         })->setName('addgroup');
     })->add(LoggedMiddleware::class);
