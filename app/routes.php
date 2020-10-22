@@ -77,6 +77,10 @@ return function (App $app) {
         $group->get('/messagerie/{groupid}', function (Request $request, Response $response, $args) {
             // On récupère des messages crées dans ce groupe
             $messages = Groupe::getById($args['groupid'])->messages();
+
+            /*
+             * @Todo Amélioration pour réduire le nombre de requête SQL
+             */
             foreach ($messages as $clemessage => $message) {
                 $auteurMessage = Utilisateur::getById($message['id_user_auteur']);
                 $messages[$clemessage]['nomprenomauteur'] = $auteurMessage->prenom . " " . $auteurMessage->nom;
