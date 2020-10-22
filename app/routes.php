@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+use App\Application\Actions\AddGroupeAction;
+use App\Application\Actions\AddMessageAction;
 use App\Application\Actions\AddUserAction;
 use App\Application\Actions\AuthenticateAction;
 use App\Application\Actions\ChangePasswordAction;
@@ -10,15 +12,11 @@ use App\Application\Actions\User\ListUsersAction;
 use App\Application\Actions\User\ViewUserAction;
 use App\Application\Middleware\LoggedMiddleware;
 use App\Domain\Groupe\Groupe;
-use App\Domain\GroupeUtilisateur\GroupeUtilisateur;
-use App\Domain\Message\Message;
-use App\Domain\Messagerie\Messagerie;
 use App\Domain\Utilisateur\Utilisateur;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
-use Slim\Routing\RouteContext;
 
 return function (App $app) {
 
@@ -94,20 +92,7 @@ return function (App $app) {
         })->setName('messagerie');
 
         // Action pour rajouter un message
-        $group->post('/addmessage', function (Request $request, Response $response, $args) {
-            $nouveauMessage = new Message();
-            $nouveauMessage->id_user_auteur = $_POST['authorid'];
-            $nouveauMessage->contenu = filter_var($_POST['content'], FILTER_SANITIZE_STRING);
-            $datetime = new DateTime('now');
-            $nouveauMessage->date = $datetime->format('Y-m-d H:i:s');
-            $nouveauMessage->save();
-            $nouveauMessagerie = new Messagerie();
-            $nouveauMessagerie->id_groupe = $_POST['groupid'];
-            $nouveauMessagerie->id_message = $nouveauMessage->id;
-            $nouveauMessagerie->save();
-            $routeParser = RouteContext::fromRequest($request)->getRouteParser();
-            return $response->withHeader('Location', $routeParser->urlFor('messagerie', ['groupid' => $_POST['groupid']]))->withStatus(301);
-        })->setName('addmessage');
+        $group->post('/addmessage', AddMessageAction::class)->setName('addmessage');
 
         // Action pour afficher les groupes
         $group->get('/groupes', function (Request $request, Response $response, $args) {
