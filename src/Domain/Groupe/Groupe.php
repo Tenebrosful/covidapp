@@ -51,7 +51,7 @@ class Groupe extends Model
      */
     public function membres()
     {
-        return $this->belongsToMany("App\Domain\Utilisateur\Utilisateur", "groupeUtilisateur", "id_groupe", "is_user")->get();
+        return $this->belongsToMany("App\Domain\Utilisateur\Utilisateur", "groupeUtilisateur", "id_groupe", "id_user")->get();
     }
 
     /**

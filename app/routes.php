@@ -131,6 +131,17 @@ return function (App $app) {
             $routeParser = RouteContext::fromRequest($request)->getRouteParser();
             return $response->withHeader('Location', $routeParser->urlFor('groupes'))->withStatus(301);
         })->setName('addgroup');
+        $group->get('/group/{groupid}', function (Request $request, Response $response, $args) {
+            $groupeAModifier = Groupe::getById($args['groupid']);
+            $informationsGroupe = [$groupeAModifier->toArray()];
+            $informationsGroupe[] = $groupeAModifier->membres();
+            $response->getBody()->write(json_encode($informationsGroupe));
+            return $response;
+        })->setName('group');
+        $group->get('/modifygroup', function (Request $request, Response $response, $args) {
+
+            return $response;
+        })->setName('modifygroup');
     })->add(LoggedMiddleware::class);
 
 };
