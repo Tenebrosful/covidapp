@@ -19,7 +19,7 @@
                 <li class="list-group-item list-group-item-darker list-group-item-action d-flex justify-content-between align-items-center">
                     <a href="/messagerie/{{groupe.id}}">{{groupe.nom}}</a>
                     <div class="d-flex">
-                        <a class="btn btn-sm btn-warning mr-1" href="/modifygroup/{{groupe.id}}" role="button">Modifier</a>
+                        <a data-groupid="{{groupe.id}}" class="btn btn-sm btn-warning mr-1 buttonmodificationgroupes" role="button">Modifier</a>
                         <a class="btn btn-sm btn-danger" href="/deletegroup/{{groupe.id}}" role="button">Supprimer</a>
                     </div>
                 </li>
@@ -32,7 +32,7 @@
     </div>
 </div>
 <!-- Modal pour rajouter des groupes -->
-<div class="modal fade" id="rajoutGroupesModal" tabindex="-1" aria-labelledby="rajoutGroupesModalLabel" aria-hidden="true">
+<div class="modal fade rajoutmodificationmodals" id="rajoutGroupesModal" tabindex="-1" aria-labelledby="rajoutGroupesModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content bg-secondary text-white">
             <div class="modal-header">
@@ -63,6 +63,39 @@
         </div>
     </div>
 </div>
+<!-- Modal pour modifier des groupes -->
+<div class="modal fade rajoutmodificationmodals" id="modificationGroupesModal" tabindex="-1" aria-labelledby="modificationGroupesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content bg-secondary text-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modificationGroupesModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <ul class="list-group list-group-flush">
+                    {% for utilisateur in utilisateurs %}
+                        <li class="list-group-item list-group-item-darker list-group-item-action d-flex justify-content-between align-items-center">
+                            {{utilisateur.prenom}} {{utilisateur.nom}}
+                            <span class='d-none' id='groupId'>{{utilisateur.id}}</span>
+                            <span id='groupChecked'></span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-dismiss="modal">Annuler</button>
+                <form class="form-inline" action="/modifygroup" method="POST">
+                    <input type="hidden" name="groupid" id="inputGroupId">
+                    <input type="hidden" name="users">
+                    <input type="text" name="grouptitle" class="form-control bg-secondary text-white flex-fill mr-2" id="inputGroupTitle" placeholder="Tapez le nom du groupe..." required>
+                    <button type="submit" class="btn btn-primary">Rajouter</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -76,20 +109,68 @@
 <!-- Optional JavaScript -->
 <script>
     // Rajout de comportement à la liste de choix pour rajout de groupes
-    $('#rajoutGroupesModal').find('.list-group-item-action').on('click', function() {
-        if ($(this).find('#groupChecked').text() === '✔')
-            $(this).find('#groupChecked').text('');
-        else
-            $(this).find('#groupChecked').text('✔');
+    $('.rajoutmodificationmodals').each(function() {
+        $(this).find('.list-group-item-action').on('click', function() {
+            if ($(this).find('#groupChecked').text() === '✔')
+                $(this).find('#groupChecked').text('');
+            else
+                $(this).find('#groupChecked').text('✔');
+        });
     });
     // Lit quelles groupes on été choisies au submit du formulaire
-    $('#rajoutGroupesModal').find('form').on('submit', function() {
-        let checkedUsers = [];
-        $('#rajoutGroupesModal').find('.list-group-item-action').each(function() {
-            if ($(this).find('#groupChecked').text() === '✔')
-                checkedUsers.push($(this).find('#groupId').text());
+    $('.rajoutmodificationmodals').each(function() {
+        $(this).find('form').on('submit', function() {
+            let checkedUsers = [];
+            $('#rajoutGroupesModal').find('.list-group-item-action').each(function() {
+                if ($(this).find('#groupChecked').text() === '✔')
+                    checkedUsers.push($(this).find('#groupId').text());
+            });
+            $(this).find("[name='users']").val(checkedUsers.join());
         });
-        $(this).find("[name='users']").val(checkedUsers.join());
+    });
+    // On prépare le modal pour modifier les groupes en fonction du groupe choisie
+    $('.buttonmodificationgroupes').each(function() {
+        $(this).on('click', function(event) {
+            // Définition de la fonction pour récupérer les données en JSON
+            function requeteRecuperation(groupid) {
+                return new Promise((resolve, reject) => {
+                    fetch("/group/"+groupid).then((response) => {
+                        if (response.ok)
+                            return response.json();
+                        else
+                            reject(response.statusText);
+                    }).then((responsejson) => {
+                        resolve(responsejson);
+                    }).catch((error) => {
+                        reject(error);
+                    });
+                });
+            }
+            // Appel à cette fonction
+            requeteRecuperation($(this).data('groupid')).then((resolve) => {
+                console.log(resolve);
+                // On met le titre
+                $('#modificationGroupesModalLabel').html("Modification du groupe <i>" + resolve[0].nom + "</i>");
+                // On décoche tout
+                $('#modificationGroupesModal').find('#groupChecked').each(function() {
+                    $(this).text('');
+                });
+                // Puis on coche uniquement les utilisateurs qui appartiennent déjà au groupe
+                resolve[1].forEach((utilisateur) => {
+                    // Recherche dans la liste et si trouvé on coche
+                    $('#modificationGroupesModal').find('.list-group-item-action').each(function() {
+                        if ($(this).find('#groupId').text() == utilisateur.id)
+                            $(this).find('#groupChecked').text('✔');
+                    });
+                });
+                // On remplit le l'id et le nom dans le form
+                $('#modificationGroupesModal').find('#inputGroupId').val(resolve[0].id);
+                $('#modificationGroupesModal').find('#inputGroupTitle').val(resolve[0].nom);
+                $('#modificationGroupesModal').modal('show');
+            }).catch((reject) => {
+                console.error(reject);
+            });
+        });
     });
 </script>
 </body>
