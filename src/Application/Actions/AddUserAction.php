@@ -30,12 +30,12 @@ final class AddUserAction
         $routeParser = RouteContext::fromRequest($request)->getRouteParser();
 
         if (!empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['repassword']) && !empty($_POST['nom']) && !empty($_POST['prenom']) && !empty($_POST['dateNaissance'])) {
-            $email = filter_var($_POST['email'], FILTER_SANITAZE_STRING);
-            $nom = filter_var($_POST['nom'], FILTER_SANITAZE_STRING);
-            $prenom = filter_var($_POST['prenom'], FILTER_SANITAZE_STRING);
-            $dateNaissance = filter_var($_POST['dateNaissance'], FILTER_SANITAZE_STRING);
-            $password = filter_var($_POST['password'], FILTER_SANITAZE_STRING);
-            $repassword = filter_var($_POST['repassword'], FILTER_SANITAZE_STRING);
+            $email = filter_var($_POST['email'], FILTER_SANITIZE_STRING);
+            $nom = filter_var($_POST['nom'], FILTER_SANITIZE_STRING);
+            $prenom = filter_var($_POST['prenom'], FILTER_SANITIZE_STRING);
+            $dateNaissance = filter_var($_POST['dateNaissance'], FILTER_SANITIZE_STRING);
+            $password = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
+            $repassword = filter_var($_POST['repassword'], FILTER_SANITIZE_STRING);
 
             if ($password !== $repassword) {
                 $_SESSION['message'] = "Les mots de passe ne correspondent pas !";

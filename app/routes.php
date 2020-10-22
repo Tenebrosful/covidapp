@@ -95,7 +95,7 @@ return function (App $app) {
         $group->post('/addmessage', function (Request $request, Response $response, $args) {
             $nouveauMessage = new Message();
             $nouveauMessage->id_user_auteur = $_POST['authorid'];
-            $nouveauMessage->contenu = filter_var($_POST['content'], FILTER_SANITAZE_STRING);
+            $nouveauMessage->contenu = filter_var($_POST['content'], FILTER_SANITIZE_STRING);
             $datetime = new DateTime('now');
             $nouveauMessage->date = $datetime->format('Y-m-d H:i:s');
             $nouveauMessage->save();
@@ -120,7 +120,7 @@ return function (App $app) {
         // Action pour rajouter un groupe
         $group->post('/addgroup', function (Request $request, Response $response, $args) {
             $nouveauGroupe = new Groupe();
-            $nouveauGroupe->nom = filter_var($_POST['grouptitle'], FILTER_SANITAZE_STRING);
+            $nouveauGroupe->nom = filter_var($_POST['grouptitle'], FILTER_SANITIZE_STRING);
             $nouveauGroupe->save();
             foreach (explode(',', $_POST['users']) as $idUser) {
                 $nouveauGroupeUtilisateur = new GroupeUtilisateur();

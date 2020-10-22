@@ -29,8 +29,8 @@ final class AuthenticateAction
     ): ResponseInterface
     {
         if (!empty($_POST['email']) && !empty($_POST['password'])) {
-            $email = filter_var($_POST['email'], FILTER_SANITAZE_STRING);
-            $password = filter_var($_POST['password'], FILTER_SANITAZE_STRING);
+            $email = filter_var($_POST['email'], FILTER_SANITIZE_STRING);
+            $password = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
 
             $routeParser = RouteContext::fromRequest($request)->getRouteParser();
 
