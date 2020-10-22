@@ -16,12 +16,13 @@
     <div class="card bg-secondary text-white mt-5">
         <ul class="list-group list-group-flush">
             {% for groupe in groupes %}
-                <a href="/messagerie/{{groupe.id}}" class="list-group-item list-group-item-darker list-group-item-action d-flex justify-content-between align-items-center">{{groupe.nom}}
+                <li class="list-group-item list-group-item-darker list-group-item-action d-flex justify-content-between align-items-center">
+                    <a href="/messagerie/{{groupe.id}}">{{groupe.nom}}</a>
                     <div class="d-flex">
-                        <button type="button" class="btn btn-sm btn-warning mr-1" onclick="window.location.href = '/modifygroup/{{groupe.id}}'">Modifier</button>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="window.location.href = '/deletegroup/{{groupe.id}}'">Supprimer</button>
+                        <a class="btn btn-sm btn-warning mr-1" href="/modifygroup/{{groupe.id}}" role="button">Modifier</a>
+                        <a class="btn btn-sm btn-danger" href="/deletegroup/{{groupe.id}}" role="button">Supprimer</a>
                     </div>
-                </a>
+                </li>
             {% endfor %}
         </ul>
         <div class="card-footer text-right text-muted">
