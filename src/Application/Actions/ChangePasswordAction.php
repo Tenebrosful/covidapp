@@ -33,8 +33,8 @@ final class ChangePasswordAction
             $utilisateur = Utilisateur::getById($_SESSION['user_id']);
 
             if (password_verify($_POST['oldPassword'], $utilisateur->mdpCrypte)) {
-                $password = htmlentities($_POST['password']);
-                $repassword = htmlentities($_POST['repassword']);
+                $password = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
+                $repassword = filter_var($_POST['repassword'], FILTER_SANITIZE_STRING);
                 if ($password !== $repassword) {
                     $_SESSION['message'] = "Les mots de passe ne correspondent pas !";
                     return $response->withHeader('Location', $routeParser->urlFor('formpassword'))->withStatus(301);
