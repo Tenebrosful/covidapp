@@ -107,22 +107,7 @@ return function (App $app) {
         })->setName('groupes');
 
         // Action pour rajouter un groupe
-        $group->post('/addgroup', function (Request $request, Response $response, $args) {
-            $routeParser = RouteContext::fromRequest($request)->getRouteParser();
-
-            if (!empty($_POST['users']) || !empty($_POST['grouptitle'])) {
-                $nouveauGroupe = new Groupe();
-                $nouveauGroupe->nom = filter_var($_POST['grouptitle'], FILTER_SANITIZE_STRING);
-                $nouveauGroupe->save();
-                foreach (explode(',', $_POST['users']) as $idUser) {
-                    $nouveauGroupeUtilisateur = new GroupeUtilisateur();
-                    $nouveauGroupeUtilisateur->id_groupe = $nouveauGroupe->id;
-                    $nouveauGroupeUtilisateur->id_user = $idUser;
-                    $nouveauGroupeUtilisateur->save();
-                }
-            } else $_SESSION["message"] = "Certaines informations sont manquantes";
-            return $response->withHeader('Location', $routeParser->urlFor('groupes'))->withStatus(301);
-        })->setName('addgroup');
+        $group->post('/addgroup', AddGroupeAction::class)->setName('addgroup');
     })->add(LoggedMiddleware::class);
 
 };
