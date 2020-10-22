@@ -112,7 +112,7 @@ return function (App $app) {
         // Action pour afficher les groupes
         $group->get('/groupes', function (Request $request, Response $response, $args) {
             // Il faut récuperer la liste de groupes
-            $groupes = Groupe::all()->toArray();
+            $groupes = Utilisateur::getById($_SESSION["user_id"])->groupes();
             // Et la liste des utilisateurs
             $utilisateurs = Utilisateur::all()->toArray();
             return $this->get('view')->render($response, 'groupes.html', [
