@@ -110,6 +110,7 @@ return function (App $app) {
         // Action pour rajouter un groupe
         $group->post('/addgroup', AddGroupeAction::class)->setName('addgroup');
 
+        // Pour récuperer les informations sur le groupe
         $group->get('/group/{groupid}', function (Request $request, Response $response, $args) {
             $groupeAModifier = Groupe::getById($args['groupid']);
             $informationsGroupe = [$groupeAModifier->toArray()];
@@ -117,10 +118,13 @@ return function (App $app) {
             $response->getBody()->write(json_encode($informationsGroupe));
             return $response;
         })->setName('group');
+
+        // Pour modifier un groupe donné
         $group->get('/modifygroup', function (Request $request, Response $response, $args) {
 
             return $response;
         })->setName('modifygroup');
+
     })->add(LoggedMiddleware::class);
 
 };
