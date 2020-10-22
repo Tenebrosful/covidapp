@@ -1,24 +1,19 @@
 <?php
 declare(strict_types=1);
 
+use App\Application\Actions\AddGroupeAction;
+use App\Application\Actions\AddMessageAction;
 use App\Application\Actions\AddUserAction;
 use App\Application\Actions\AuthenticateAction;
 use App\Application\Actions\ChangePasswordAction;
 use App\Application\Actions\DeleteUserAction;
-use App\Application\Actions\Messages\MessageReadAction;
-use App\Application\Actions\User\ListUsersAction;
-use App\Application\Actions\User\ViewUserAction;
 use App\Application\Middleware\LoggedMiddleware;
+use App\Domain\Groupe\Groupe;
+use App\Domain\Utilisateur\Utilisateur;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
-use Slim\Routing\RouteContext;
-use App\Domain\Groupe\Groupe;
-use App\Domain\Utilisateur\Utilisateur;
-use App\Domain\GroupeUtilisateur\GroupeUtilisateur;
-use App\Domain\Message\Message;
-use App\Domain\Messagerie\Messagerie;
 
 return function (App $app) {
 
@@ -77,13 +72,18 @@ return function (App $app) {
                 'email' => $_SESSION['email']
             ]);
         })->setName('welcome');
+
         // Action pour afficher la messagerie
         $group->get('/messagerie/{groupid}', function (Request $request, Response $response, $args) {
             // On récupère des messages crées dans ce groupe
-            $messages = Groupe::getById($args['groupid'])->messages()->toArray();
+            $messages = Groupe::getById($args['groupid'])->messages();
+
+            /*
+             * @Todo Amélioration pour réduire le nombre de requête SQL
+             */
             foreach ($messages as $clemessage => $message) {
                 $auteurMessage = Utilisateur::getById($message['id_user_auteur']);
-                $messages[$clemessage]['nomprenomauteur'] = $auteurMessage->prenom." ".$auteurMessage->nom;
+                $messages[$clemessage]['nomprenomauteur'] = $auteurMessage->prenom . " " . $auteurMessage->nom;
             }
             return $this->get('view')->render($response, 'messagerie.html', [
                 'idgroupe' => $args['groupid'],
@@ -91,25 +91,14 @@ return function (App $app) {
                 'messages' => $messages
             ]);
         })->setName('messagerie');
+
         // Action pour rajouter un message
-        $group->post('/addmessage', function (Request $request, Response $response, $args) {
-            $nouveauMessage = new Message();
-            $nouveauMessage->id_user_auteur = $_POST['authorid'];
-            $nouveauMessage->contenu = filter_var($_POST['content'], FILTER_SANITIZE_STRING);
-            $datetime = new DateTime('now');
-            $nouveauMessage->date = $datetime->format('Y-m-d H:i:s');
-            $nouveauMessage->save();
-            $nouveauMessagerie = new Messagerie();
-            $nouveauMessagerie->id_groupe = $_POST['groupid'];
-            $nouveauMessagerie->id_message = $nouveauMessage->id;
-            $nouveauMessagerie->save();
-            $routeParser = RouteContext::fromRequest($request)->getRouteParser();
-            return $response->withHeader('Location', $routeParser->urlFor('messagerie', ['groupid' => $_POST['groupid']]))->withStatus(301);
-        })->setName('addmessage');
+        $group->post('/addmessage', AddMessageAction::class)->setName('addmessage');
+
         // Action pour afficher les groupes
         $group->get('/groupes', function (Request $request, Response $response, $args) {
             // Il faut récuperer la liste de groupes
-            $groupes = Groupe::all()->toArray();
+            $groupes = Utilisateur::getById($_SESSION["user_id"])->groupes();
             // Et la liste des utilisateurs
             $utilisateurs = Utilisateur::all()->toArray();
             return $this->get('view')->render($response, 'groupes.html', [
@@ -117,20 +106,10 @@ return function (App $app) {
                 'utilisateurs' => $utilisateurs
             ]);
         })->setName('groupes');
+
         // Action pour rajouter un groupe
-        $group->post('/addgroup', function (Request $request, Response $response, $args) {
-            $nouveauGroupe = new Groupe();
-            $nouveauGroupe->nom = filter_var($_POST['grouptitle'], FILTER_SANITIZE_STRING);
-            $nouveauGroupe->save();
-            foreach (explode(',', $_POST['users']) as $idUser) {
-                $nouveauGroupeUtilisateur = new GroupeUtilisateur();
-                $nouveauGroupeUtilisateur->id_groupe = $nouveauGroupe->id;
-                $nouveauGroupeUtilisateur->id_user = $idUser;
-                $nouveauGroupeUtilisateur->save();
-            }
-            $routeParser = RouteContext::fromRequest($request)->getRouteParser();
-            return $response->withHeader('Location', $routeParser->urlFor('groupes'))->withStatus(301);
-        })->setName('addgroup');
+        $group->post('/addgroup', AddGroupeAction::class)->setName('addgroup');
+
         $group->get('/group/{groupid}', function (Request $request, Response $response, $args) {
             $groupeAModifier = Groupe::getById($args['groupid']);
             $informationsGroupe = [$groupeAModifier->toArray()];
