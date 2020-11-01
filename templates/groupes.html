@@ -148,7 +148,6 @@
             }
             // Appel à cette fonction
             requeteRecuperation($(this).data('groupid')).then((resolve) => {
-                console.log(resolve);
                 // On met le titre
                 $('#modificationGroupesModalLabel').html("Modification du groupe <i>" + resolve[0].nom + "</i>");
                 // On décoche tout

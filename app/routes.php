@@ -37,7 +37,7 @@ return function (App $app) {
             return $res;
         })->setName('signin');
 
-        // Action pour déconnecter l'utilisateur (Redirection vers la page de connexion)
+        // Action pour déconnecter l'utilisateur (redirection vers la page de connexion)
         $group->get('/signout', function (Request $request, Response $response, $args) {
             session_destroy();
             return $response->withHeader('Location', 'signin')->withStatus(301);
@@ -73,20 +73,23 @@ return function (App $app) {
             ]);
         })->setName('welcome');
 
-        // Action pour afficher la messagerie
+        // Action pour afficher la messagerie (A ACTIONNER)
         $group->get('/messagerie/{groupid}', function (Request $request, Response $response, $args) {
-            // On récupère des messages crées dans ce groupe
-            $messages = Groupe::getById($args['groupid'])->messages();
-
+            $groupeconcerne = Groupe::getById($args['groupid']);
+            // On récupère le nom du groupe
+            $nomgroupe = $groupeconcerne->nom;
+            // On récupère des messages crées dans ce groupe (toArray() nécessaire pour que Twig puisse reconnaître le tableau vide)
+            $messages = $groupeconcerne->messages()->toArray();
             /*
              * @Todo Amélioration pour réduire le nombre de requête SQL
              */
             foreach ($messages as $clemessage => $message) {
                 $auteurMessage = Utilisateur::getById($message['id_user_auteur']);
-                $messages[$clemessage]['nomprenomauteur'] = $auteurMessage->prenom . " " . $auteurMessage->nom;
+                $messages[$clemessage]['nomprenomauteur'] = $auteurMessage->prenom." ".$auteurMessage->nom;
             }
             return $this->get('view')->render($response, 'messagerie.html', [
                 'idgroupe' => $args['groupid'],
+                'nomgroupe' => $nomgroupe,
                 'idutilisateurcourant' => $_SESSION['user_id'],
                 'messages' => $messages
             ]);
@@ -95,7 +98,7 @@ return function (App $app) {
         // Action pour rajouter un message
         $group->post('/addmessage', AddMessageAction::class)->setName('addmessage');
 
-        // Action pour afficher les groupes
+        // Action pour afficher les groupes (A ACTIONNER)
         $group->get('/groupes', function (Request $request, Response $response, $args) {
             // Il faut récuperer la liste de groupes
             $groupes = Utilisateur::getById($_SESSION["user_id"])->groupes();
@@ -110,7 +113,7 @@ return function (App $app) {
         // Action pour rajouter un groupe
         $group->post('/addgroup', AddGroupeAction::class)->setName('addgroup');
 
-        // Pour récuperer les informations sur le groupe
+        // Pour récuperer les informations sur le groupe (A ACTIONNER)
         $group->get('/group/{groupid}', function (Request $request, Response $response, $args) {
             $groupeAModifier = Groupe::getById($args['groupid']);
             $informationsGroupe = [$groupeAModifier->toArray()];
@@ -119,7 +122,7 @@ return function (App $app) {
             return $response;
         })->setName('group');
 
-        // Pour modifier un groupe donné
+        // Pour modifier un groupe donné (A ACTIONNER)
         $group->get('/modifygroup', function (Request $request, Response $response, $args) {
 
             return $response;
