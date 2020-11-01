@@ -5,7 +5,6 @@ module.exports = {
   context: __dirname,
   mode: process.env.NODE_ENV || 'development',
   entry: './client/index.js',
-  target: 'node',
   output: {
     path: path.join(__dirname, 'public'),
     filename: 'bundle.js',
