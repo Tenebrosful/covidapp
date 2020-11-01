@@ -39,4 +39,14 @@ class GroupeUtilisateur extends Pivot
      * @var array
      */
     protected $hidden = [];
+
+    /**
+     * @param int id
+     * @throw ModelNotFoundException
+     * @return GroupeUtilisateur
+     */
+    static public function getById($id)
+    {
+        return GroupeUtilisateur::where('id_groupe', $id);
+    }
 }

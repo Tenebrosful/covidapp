@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use App\Application\Actions\AddGroupeAction;
+use App\Application\Actions\AddGroupAction;
 use App\Application\Actions\AddMessageAction;
 use App\Application\Actions\AddUserAction;
 use App\Application\Actions\AuthenticateAction;
@@ -10,6 +10,8 @@ use App\Application\Actions\DeleteUserAction;
 use App\Application\Middleware\LoggedMiddleware;
 use App\Domain\Groupe\Groupe;
 use App\Domain\Utilisateur\Utilisateur;
+use App\Domain\GroupeUtilisateur\GroupeUtilisateur;
+use Slim\Routing\RouteContext;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
@@ -106,12 +108,13 @@ return function (App $app) {
             $utilisateurs = Utilisateur::all()->toArray();
             return $this->get('view')->render($response, 'groupes.html', [
                 'groupes' => $groupes,
-                'utilisateurs' => $utilisateurs
+                'utilisateurs' => $utilisateurs,
+                'idutilisateurcourant' => $_SESSION['user_id']
             ]);
         })->setName('groupes');
 
         // Action pour rajouter un groupe
-        $group->post('/addgroup', AddGroupeAction::class)->setName('addgroup');
+        $group->post('/addgroup', AddGroupAction::class)->setName('addgroup');
 
         // Pour récuperer les informations sur le groupe (A ACTIONNER)
         $group->get('/group/{groupid}', function (Request $request, Response $response, $args) {
@@ -123,10 +126,37 @@ return function (App $app) {
         })->setName('group');
 
         // Pour modifier un groupe donné (A ACTIONNER)
-        $group->get('/modifygroup', function (Request $request, Response $response, $args) {
-
-            return $response;
+        $group->post('/modifygroup', function (Request $request, Response $response, $args) {
+            $routeParser = RouteContext::fromRequest($request)->getRouteParser();
+            // On change le nom du groupe
+            $groupeAModifier = Groupe::getById($_POST['groupid']);
+            $groupeAModifier->nom = filter_var($_POST['grouptitle'], FILTER_SANITIZE_STRING);
+            $groupeAModifier->save();
+            // On supprime tous les liaisons pour ce groupe
+            GroupeUtilisateur::getById($_POST['groupid'])->delete();
+            // On rajoute des liaisons comme pour le rajout du groupe
+            foreach (explode(',', $_POST['users']) as $idUser) {
+                $nouveauGroupeUtilisateur = new GroupeUtilisateur();
+                $nouveauGroupeUtilisateur->id_groupe = $_POST['groupid'];
+                $nouveauGroupeUtilisateur->id_user = $idUser;
+                $nouveauGroupeUtilisateur->save();
+            }
+            return $response->withHeader('Location', $routeParser->urlFor('groupes'))->withStatus(301);
         })->setName('modifygroup');
+        $group->get('/deletegroup/{groupid}', function (Request $request, Response $response, $args) {
+            $routeParser = RouteContext::fromRequest($request)->getRouteParser();
+            $groupeASupprimer = Groupe::getById($args['groupid']);
+            // On supprime les messages qui était dans le groupe
+            $messagesASupprimer = $groupeASupprimer->messages();
+            foreach ($messagesASupprimer as $messageASupprimer)
+                $messageASupprimer->delete();
+            // On supprime les liaisons avec cette groupe
+            GroupeUtilisateur::getById($args['groupid'])->delete();
+            // Et on supprime le groupe elle-même
+            $groupeASupprimer->delete();
+            return $response->withHeader('Location', $routeParser->urlFor('groupes'))->withStatus(301);
+        })->setName('deletegroup');
+
 
     })->add(LoggedMiddleware::class);
 

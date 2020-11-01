@@ -10,7 +10,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Routing\RouteContext;
 
-class AddGroupeAction
+class AddGroupAction
 {
     /**
      * Invoke.
@@ -28,8 +28,7 @@ class AddGroupeAction
     ): ResponseInterface
     {
         $routeParser = RouteContext::fromRequest($request)->getRouteParser();
-
-        if (!empty($_POST['users']) || !empty($_POST['grouptitle'])) {
+        if (!empty($_POST['grouptitle'])) {
             $nouveauGroupe = new Groupe();
 
             $nouveauGroupe->nom = filter_var($_POST['grouptitle'], FILTER_SANITIZE_STRING);
@@ -44,8 +43,7 @@ class AddGroupeAction
 
                 $nouveauGroupeUtilisateur->save();
             }
-        } else
-            $_SESSION["message"] = "Certaines informations sont manquantes";
+        }
         return $response->withHeader('Location', $routeParser->urlFor('groupes'))->withStatus(301);
     }
 }
