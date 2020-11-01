@@ -18,11 +18,26 @@
 
             <h5 class="card-title">Bonjour !</h5>
             <h6 class="card-subtitle text-dark mb-3">{{email}}</h6>
-            <p class="card-text">Vous êtes maintenant connectés ! :D Vous pouvez désormais accéder à toutes les fonctionnalités de l'application !</p>
+            <p class="card-text">Vous êtes maintenant connectés ! :D Vous pouvez désormais accéder à toutes les fonctionnalités de l'application !
+                {% if covid %}
+                    <br>Nous sommes malheureux à apprendre que vous avez le Covid... On espère vous voir sein et sauf bientôt !
+                {% endif %}
+            </p>
             <!-- À changer ! -->
-            <a class='btn btn-light btn-sm' href='account/signout' role='button'>Me déconnecter</a>
-            <a class='btn btn-warning btn-sm' href='account/formpassword' role='button'>Changer le mot de passe</a>
-            <a class='btn btn-danger btn-sm' href='account/deleteuser' role='button'>Supprimez-moi !</a>
+            <div class="d-flex justify-content-between">
+                <div>
+                    <a class='btn btn-light btn-sm' href='account/signout' role='button'>Me déconnecter</a>
+                    {% if covid %}
+                        <a class='btn btn-info btn-sm' href='account/covid/0' role='button'>Me déclarer Covid-</a>
+                    {% else %}
+                        <a class='btn btn-info btn-sm' href='account/covid/1' role='button'>Me déclarer Covid+</a>
+                    {% endif %}
+                </div>
+                <div>
+                    <a class='btn btn-warning btn-sm' href='account/formpassword' role='button'>Changer le mot de passe</a>
+                    <a class='btn btn-danger btn-sm' href='account/deleteuser' role='button'>Supprimez-moi !</a>
+                </div>
+            </div>
 
         </div>
         <div class="card-footer text-right text-muted">

@@ -51,6 +51,15 @@ return function (App $app) {
         // Action pour authentifier l'utilisateur
         $group->post('/authenticate', AuthenticateAction::class)->setName('authenticate');
 
+        // Action pour changer le statut d'inféction de l'utilisateur
+        $group->get('/covid/{statutcovid}', function (Request $request, Response $response, $args) {
+            $routeParser = RouteContext::fromRequest($request)->getRouteParser();
+            $utilisateurAModifier = Utilisateur::getById($_SESSION["user_id"]);
+            $utilisateurAModifier->covid = $args['statutcovid'];
+            $utilisateurAModifier->save();
+            return $response->withHeader('Location', $routeParser->urlFor('welcome'))->withStatus(301);
+        })->setName('covid')->add(LoggedMiddleware::class);
+
         // Formulaire pour changer le mot de passe
         $group->get('/formpassword', function (Request $request, Response $response, $args) {
             $res = $this->get('view')->render($response, 'formpassword.html', [
@@ -71,7 +80,8 @@ return function (App $app) {
         // Action pour souhaiter la bienvenue à l'utilisateur
         $group->get('/welcome', function (Request $request, Response $response, $args) {
             return $this->get('view')->render($response, 'welcome.html', [
-                'email' => $_SESSION['email']
+                'email' => $_SESSION['email'],
+                'covid' => Utilisateur::getById($_SESSION["user_id"])->covid
             ]);
         })->setName('welcome');
 

@@ -27,6 +27,9 @@ final class DeleteUserAction
         array $args = []
     ): ResponseInterface
     {
+        /*
+        * @Todo Faudrait trouver si utilisateur a des groupes où il est le seul membre
+        */
         $utilisateur = Utilisateur::getById($_SESSION['user_id']);
         $utilisateur->delete();
         session_destroy();

@@ -31,7 +31,8 @@ class Utilisateur extends Model
         'mdpCrypte',
         'nom',
         'prenom',
-        'dateNais'
+        'dateNais',
+        'covid'
     ];
 
     /**
@@ -50,7 +51,7 @@ class Utilisateur extends Model
     }
 
     /**
-     * @TODO Fix
+     * @Todo
      * Retourne la liste des messages reçus par l'utilisateur
      */
     public function messagesRecus()

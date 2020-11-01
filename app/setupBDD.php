@@ -57,6 +57,7 @@ Capsule::schema()->create('utilisateurs', function ($table) {
     $table->string('nom');
     $table->string('prenom');
     $table->date('dateNais');
+    $table->boolean('covid')->default(false);
     $table->timestamps();
 });
 
