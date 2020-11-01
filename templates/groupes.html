@@ -4,9 +4,6 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/custom.css">
     <title>Messagerie nickel</title>
@@ -100,82 +97,6 @@
         </div>
     </div>
 </div>
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
-        crossorigin="anonymous"></script>
-<!-- Optional JavaScript -->
-<script>
-    // Rajout de comportement à la liste de choix pour rajout de groupes
-    $('.rajoutmodificationmodals').each(function() {
-        $(this).find('.list-group-item-action').on('click', function() {
-            if ($(this).find('#groupChecked').text() === '✔')
-                $(this).find('#groupChecked').text('');
-            else
-                $(this).find('#groupChecked').text('✔');
-        });
-    });
-    // Lit quelles groupes on été choisies au submit du formulaire
-    $('.rajoutmodificationmodals').each(function() {
-        $(this).find('form').on('submit', function(e) {
-            let checkedUsers = [];
-            $(this).parent().parent().find('.list-group-item-action').each(function() {
-                if ($(this).find('#groupChecked').text() === '✔')
-                    checkedUsers.push($(this).find('#groupId').text());
-            });
-            checkedUsers.push($(this).find("[name='users']").val());
-            $(this).find("[name='users']").val(checkedUsers.join());
-        });
-    });
-    // On prépare le modal pour modifier les groupes en fonction du groupe choisie
-    $('.buttonmodificationgroupes').each(function() {
-        $(this).on('click', function(event) {
-            // Définition de la fonction pour récupérer les données en JSON
-            function requeteRecuperation(groupid) {
-                return new Promise((resolve, reject) => {
-                    fetch("/group/"+groupid).then((response) => {
-                        if (response.ok)
-                            return response.json();
-                        else
-                            reject(response.statusText);
-                    }).then((responsejson) => {
-                        resolve(responsejson);
-                    }).catch((error) => {
-                        reject(error);
-                    });
-                });
-            }
-            // Appel à cette fonction
-            requeteRecuperation($(this).data('groupid')).then((resolve) => {
-                // On met le titre
-                $('#modificationGroupesModalLabel').html("Modification du groupe <i>" + resolve[0].nom + "</i>");
-                // On décoche tout
-                $('#modificationGroupesModal').find('#groupChecked').each(function() {
-                    $(this).text('');
-                });
-                // Puis on coche uniquement les utilisateurs qui appartiennent déjà au groupe
-                resolve[1].forEach((utilisateur) => {
-                    // Recherche dans la liste et si trouvé on coche
-                    $('#modificationGroupesModal').find('.list-group-item-action').each(function() {
-                        if ($(this).find('#groupId').text() == utilisateur.id)
-                            $(this).find('#groupChecked').text('✔');
-                    });
-                });
-                // On remplit le l'id et le nom dans le form
-                $('#modificationGroupesModal').find('#inputGroupId').val(resolve[0].id);
-                $('#modificationGroupesModal').find('#inputGroupTitle').val(resolve[0].nom);
-                $('#modificationGroupesModal').modal('show');
-            }).catch((reject) => {
-                console.error(reject);
-            });
-        });
-    });
-</script>
+<script src="/bundle.js"></script>
 </body>
 </html>

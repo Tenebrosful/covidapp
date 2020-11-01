@@ -5,6 +5,7 @@ use App\Application\Actions\AddGroupAction;
 use App\Application\Actions\AddMessageAction;
 use App\Application\Actions\AddUserAction;
 use App\Application\Actions\AuthenticateAction;
+use App\Application\Actions\CovidAction;
 use App\Application\Actions\ChangePasswordAction;
 use App\Application\Actions\DeleteUserAction;
 use App\Application\Actions\ModifyGroupAction;
@@ -52,13 +53,7 @@ return function (App $app) {
         $group->post('/authenticate', AuthenticateAction::class)->setName('authenticate');
 
         // Action pour changer le statut d'inféction de l'utilisateur
-        $group->get('/covid/{statutcovid}', function (Request $request, Response $response, $args) {
-            $routeParser = RouteContext::fromRequest($request)->getRouteParser();
-            $utilisateurAModifier = Utilisateur::getById($_SESSION["user_id"]);
-            $utilisateurAModifier->covid = $args['statutcovid'];
-            $utilisateurAModifier->save();
-            return $response->withHeader('Location', $routeParser->urlFor('welcome'))->withStatus(301);
-        })->setName('covid')->add(LoggedMiddleware::class);
+        $group->get('/covid/{statutcovid}', CovidAction::class)->setName('covid')->add(LoggedMiddleware::class);
 
         // Formulaire pour changer le mot de passe
         $group->get('/formpassword', function (Request $request, Response $response, $args) {
