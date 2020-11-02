@@ -10,6 +10,8 @@
 composer install
 ```
 
+Créer le fichier `config/bdd.ini` comme expliqué dans le README du même dossier
+
 ## Puis créer le répertoire mysqldata et build+run tous les containers
 À la racine du projet :
 ```bash
