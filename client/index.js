@@ -5,6 +5,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // Importation jQuery pour utilisation dans ce fichier
 import $ from 'jquery';
 
+import * as map from 'map.js'
+
 /* Pour groupes.html */
 
 // Rajout de comportement à la liste de choix pour rajout de groupes

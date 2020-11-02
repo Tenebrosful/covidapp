@@ -133,9 +133,26 @@ return function (App $app) {
         // Pour modifier un groupe donné
         $group->post('/modifygroup', ModifyGroupAction::class)->setName('modifygroup');
 
-    // Action pour supprimer un groupe
+        // Action pour supprimer un groupe
         $group->get('/deletegroup/{groupid}', DeleteGroupAction::class)->setName('deletegroup');
 
+        $group->get('/map', function (Request $request, Response $response, $args){
+            return $this->get('view')->render($response, 'map.html');
+        });
+
     })->add(LoggedMiddleware::class);
+
+    $app->group('/apimap', function (Group $group){
+       $group->get('', function (Request $request, Response $response, $args){
+           $covided = Utilisateur::all()->where("covid", "=", "true")->localisations->get();
+           $response->getBody()->write(json_encode($covided));
+           return $response
+               ->withHeader('Content-Type', 'application/json');
+       });
+
+       $group->post('', function (Request $request, Response $response, $args){
+
+        });
+    });
 
 };
