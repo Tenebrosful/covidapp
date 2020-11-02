@@ -19,6 +19,7 @@ out/
 *.ucls
 vendor/
 *.lock
+package-lock.json
 test.php
 composer.phar
 node_modules/
