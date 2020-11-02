@@ -10,13 +10,19 @@ module.exports = {
     filename: 'bundle.js',
   },
   module: {
-    rules: [{
-      test: /\.js$/,
-      exclude: `${__dirname}/node_modules`,
-      use: {
-        loader: 'babel-loader',
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: `${__dirname}/node_modules`,
+        use: {
+          loader: 'babel-loader',
+        },
       },
-    }],
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      }
+    ],
   },
   plugins: [
     new DefinePlugin({

@@ -26,10 +26,10 @@ node_modules/
 *.ini
 *.cache
 *.env
-
-# Rajouté manuellement
 logs/
 mysqldata/
+public/*.json
+public/*.js
 
 # External tool builders
 .externalToolBuilders/

@@ -5,13 +5,14 @@ use App\Application\Actions\AddGroupAction;
 use App\Application\Actions\AddMessageAction;
 use App\Application\Actions\AddUserAction;
 use App\Application\Actions\AuthenticateAction;
+use App\Application\Actions\CovidAction;
 use App\Application\Actions\ChangePasswordAction;
 use App\Application\Actions\DeleteUserAction;
+use App\Application\Actions\ModifyGroupAction;
+use App\Application\Actions\DeleteGroupAction;
 use App\Application\Middleware\LoggedMiddleware;
 use App\Domain\Groupe\Groupe;
 use App\Domain\Utilisateur\Utilisateur;
-use App\Domain\GroupeUtilisateur\GroupeUtilisateur;
-use Slim\Routing\RouteContext;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
@@ -52,13 +53,7 @@ return function (App $app) {
         $group->post('/authenticate', AuthenticateAction::class)->setName('authenticate');
 
         // Action pour changer le statut d'inféction de l'utilisateur
-        $group->get('/covid/{statutcovid}', function (Request $request, Response $response, $args) {
-            $routeParser = RouteContext::fromRequest($request)->getRouteParser();
-            $utilisateurAModifier = Utilisateur::getById($_SESSION["user_id"]);
-            $utilisateurAModifier->covid = $args['statutcovid'];
-            $utilisateurAModifier->save();
-            return $response->withHeader('Location', $routeParser->urlFor('welcome'))->withStatus(301);
-        })->setName('covid')->add(LoggedMiddleware::class);
+        $group->get('/covid/{statutcovid}', CovidAction::class)->setName('covid')->add(LoggedMiddleware::class);
 
         // Formulaire pour changer le mot de passe
         $group->get('/formpassword', function (Request $request, Response $response, $args) {
@@ -85,7 +80,7 @@ return function (App $app) {
             ]);
         })->setName('welcome');
 
-        // Action pour afficher la messagerie (A ACTIONNER)
+        // Action pour afficher la messagerie
         $group->get('/messagerie/{groupid}', function (Request $request, Response $response, $args) {
             $groupeconcerne = Groupe::getById($args['groupid']);
             // On récupère le nom du groupe
@@ -135,38 +130,11 @@ return function (App $app) {
             return $response;
         })->setName('group');
 
-        // Pour modifier un groupe donné (A ACTIONNER)
-        $group->post('/modifygroup', function (Request $request, Response $response, $args) {
-            $routeParser = RouteContext::fromRequest($request)->getRouteParser();
-            // On change le nom du groupe
-            $groupeAModifier = Groupe::getById($_POST['groupid']);
-            $groupeAModifier->nom = filter_var($_POST['grouptitle'], FILTER_SANITIZE_STRING);
-            $groupeAModifier->save();
-            // On supprime tous les liaisons pour ce groupe
-            GroupeUtilisateur::getById($_POST['groupid'])->delete();
-            // On rajoute des liaisons comme pour le rajout du groupe
-            foreach (explode(',', $_POST['users']) as $idUser) {
-                $nouveauGroupeUtilisateur = new GroupeUtilisateur();
-                $nouveauGroupeUtilisateur->id_groupe = $_POST['groupid'];
-                $nouveauGroupeUtilisateur->id_user = $idUser;
-                $nouveauGroupeUtilisateur->save();
-            }
-            return $response->withHeader('Location', $routeParser->urlFor('groupes'))->withStatus(301);
-        })->setName('modifygroup');
-        $group->get('/deletegroup/{groupid}', function (Request $request, Response $response, $args) {
-            $routeParser = RouteContext::fromRequest($request)->getRouteParser();
-            $groupeASupprimer = Groupe::getById($args['groupid']);
-            // On supprime les messages qui était dans le groupe
-            $messagesASupprimer = $groupeASupprimer->messages();
-            foreach ($messagesASupprimer as $messageASupprimer)
-                $messageASupprimer->delete();
-            // On supprime les liaisons avec cette groupe
-            GroupeUtilisateur::getById($args['groupid'])->delete();
-            // Et on supprime le groupe elle-même
-            $groupeASupprimer->delete();
-            return $response->withHeader('Location', $routeParser->urlFor('groupes'))->withStatus(301);
-        })->setName('deletegroup');
+        // Pour modifier un groupe donné
+        $group->post('/modifygroup', ModifyGroupAction::class)->setName('modifygroup');
 
+    // Action pour supprimer un groupe
+        $group->get('/deletegroup/{groupid}', DeleteGroupAction::class)->setName('deletegroup');
 
     })->add(LoggedMiddleware::class);
 
