@@ -8,6 +8,8 @@
 À la racine du projet :\
 ```bash
 composer install
+npm install
+npm start
 ```
 
 Créer le fichier `config/bdd.ini` comme expliqué dans le README du même dossier

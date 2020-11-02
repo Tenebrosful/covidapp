@@ -107,10 +107,6 @@ const geolocation = new Geolocation({
     projection: view.getProjection(),
 });
 
-function el(id) {
-    return document.getElementById(id);
-}
-
 geolocation.setTracking(true);
 
 const accuracyClient = new Feature();
@@ -157,9 +153,8 @@ geolocation.on('change:position', function () {
     promise.then((resolve) => {
         positionPositifs = [];
         pointsPosifits = []
-        resolve.forEach(positif => positionPositifs.push([positif]));
+        resolve.forEach(positif => positionPositifs.push(positif));
         positionPositifs.forEach(coordinates => {
-            console.log(coordinates);
             const point = new Feature();
             point.setStyle(
                 new Style({
@@ -175,10 +170,11 @@ geolocation.on('change:position', function () {
                     }),
                 })
             );
+            console.log(coordinates);
             point.setGeometry(coordinates ? new Point(coordinates) : null);
             pointsPosifits.push(point);
         })
-
+        console.log(pointsPosifits)
     });
 });
 
