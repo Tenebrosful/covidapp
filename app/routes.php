@@ -142,16 +142,18 @@ return function (App $app) {
 
     })->add(LoggedMiddleware::class);
 
-    $app->group('/apimap', function (Group $group){
-       $group->get('', function (Request $request, Response $response, $args){
-           $covided = Utilisateur::all()->where("covid", "=", "true")->localisations->get();
-           $response->getBody()->write(json_encode($covided));
-           return $response
-               ->withHeader('Content-Type', 'application/json');
-       });
-
-       $group->post('', function (Request $request, Response $response, $args){
-
+    $app->group('/apimap', function (Group $group) {
+        $group->get('', function (Request $request, Response $response, $args) {
+            $covideds = Utilisateur::all()->where("covid", "=", true);
+            $covidedslocalisations = [];
+            foreach ($covideds as $covided) {
+                $covidedlocalisation = $covided->localisations()->toArray()[0];
+                $covidedslocalisations[] = [$covidedlocalisation['latitude'], $covidedlocalisation['longitude']];
+            }
+            $response->getBody()->write(json_encode($covidedslocalisations));
+            return $response->withHeader('Content-Type', 'application/json');
+        });
+        $group->post('', function (Request $request, Response $response, $args) {
         });
     });
 
