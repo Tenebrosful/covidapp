@@ -14,6 +14,14 @@ npm start
 
 Créer le fichier `config/bdd.ini` comme expliqué dans le README du même dossier
 
+Créer le fichier docker-compose.env comme suit : 
+```
+MYSQL_ROOT_PASSWORD=
+MYSQL_USER=
+MYSQL_PASSWORD=
+MYSQL_DATABASE=
+```
+
 ## Puis créer le répertoire mysqldata et build+run tous les containers
 À la racine du projet :
 ```bash
