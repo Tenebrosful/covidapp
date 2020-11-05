@@ -24,3 +24,9 @@ services:
             - "5051:80"
         links:
             - mysql:db
+
+    composer:
+        image: composer
+        volumes:
+          - .:/app
+        working_dir: /app
